@@ -1,0 +1,48 @@
+-- Operations waiting to be sent to the server, in the order they were made (docs/platform.md, "Sync").
+CREATE TABLE outbox_operation (
+    seq INTEGER PRIMARY KEY AUTOINCREMENT,
+    -- Idempotency key: a resent operation is recognised by the server
+    op_id TEXT NOT NULL UNIQUE,
+    entity_type TEXT NOT NULL,
+    entity_id TEXT NOT NULL,
+    -- CREATE | UPDATE | DELETE
+    op_type TEXT NOT NULL,
+    -- CREATE: all fields. UPDATE: changed fields only. DELETE: empty object.
+    payload TEXT NOT NULL,
+    -- Record version the change was based on (0 = created on this device, not yet synced)
+    base_version INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    attempts INTEGER NOT NULL DEFAULT 0,
+    last_error TEXT
+);
+
+CREATE INDEX outbox_operation_entity ON outbox_operation(entity_type, entity_id);
+
+-- Server-issued position in the change feed, per sync scope.
+CREATE TABLE sync_cursor (
+    scope TEXT NOT NULL PRIMARY KEY,
+    cursor_token TEXT NOT NULL,
+    last_synced_at INTEGER NOT NULL
+);
+
+enqueue:
+INSERT INTO outbox_operation(op_id, entity_type, entity_id, op_type, payload, base_version, created_at)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+pending:
+SELECT * FROM outbox_operation ORDER BY seq LIMIT :limit;
+
+pendingCount:
+SELECT count(*) FROM outbox_operation;
+
+remove:
+DELETE FROM outbox_operation WHERE op_id IN ?;
+
+recordFailure:
+UPDATE outbox_operation SET attempts = attempts + 1, last_error = :error WHERE op_id IN :opIds;
+
+cursor:
+SELECT * FROM sync_cursor WHERE scope = ?;
+
+saveCursor:
+INSERT OR REPLACE INTO sync_cursor(scope, cursor_token, last_synced_at) VALUES (?, ?, ?);

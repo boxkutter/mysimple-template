@@ -1,0 +1,13 @@
+-- Personal settings of each user on this device (not synced), e.g. the app lock.
+CREATE TABLE user_setting (
+    user_id TEXT NOT NULL,
+    setting_key TEXT NOT NULL,
+    setting_value TEXT NOT NULL,
+    PRIMARY KEY (user_id, setting_key)
+);
+
+setting:
+SELECT setting_value FROM user_setting WHERE user_id = ? AND setting_key = ?;
+
+saveSetting:
+INSERT OR REPLACE INTO user_setting(user_id, setting_key, setting_value) VALUES (?, ?, ?);

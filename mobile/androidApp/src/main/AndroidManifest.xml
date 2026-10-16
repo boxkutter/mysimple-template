@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Android 17+: needed to reach LAN addresses (the platform server may resolve to one) -->
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
+    <!-- The app lock: the phone's fingerprint, face or PIN (platform BiometricPrompt, no Play services) -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!-- Add the app's own permissions here, each with a comment saying why it is needed. -->
+
+    <application
+        android:name=".SimpleTemplateApplication"
+        android:allowBackup="false"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.SimpleTemplate.Starting">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

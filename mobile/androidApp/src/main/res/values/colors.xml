@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand navy (the platform family's colour): the app icon's background and the launch screen -->
+    <color name="ic_launcher_background">#1F3A5F</color>
+    <color name="splash_background">#1F3A5F</color>
+</resources>

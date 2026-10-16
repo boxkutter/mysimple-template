@@ -1,0 +1,43 @@
+-- Conventions for synced tables (the platform's data model):
+--   id            UUIDv7 text, generated on the device
+--   owner_org_id  the organisation that owns the row (tenant)
+--   version       server-assigned record version; 0 = not yet accepted by the server
+--   created_at, updated_at, deleted_at   UTC epoch milliseconds; deleted_at = soft delete
+-- Every local write also queues an operation in outbox_operation (same transaction).
+-- References between tables are documented with REFERENCES but not enforced: sync may
+-- deliver related records in any order.
+
+-- EXAMPLE feature: replace with the app's own tables.
+CREATE TABLE item (
+    id TEXT NOT NULL PRIMARY KEY,
+    owner_org_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    notes TEXT,
+    -- OPEN | DONE
+    status TEXT NOT NULL DEFAULT 'OPEN',
+    version INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    deleted_at INTEGER
+);
+
+CREATE INDEX item_owner ON item(owner_org_id);
+
+forOwner:
+SELECT * FROM item
+WHERE owner_org_id = :ownerOrgId AND deleted_at IS NULL
+ORDER BY status = 'DONE', updated_at DESC;
+
+byId:
+SELECT * FROM item WHERE id = ?;
+
+insert:
+INSERT INTO item(id, owner_org_id, title, notes, status, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+update:
+UPDATE item SET title = :title, notes = :notes, status = :status, updated_at = :updatedAt
+WHERE id = :id;
+
+softDelete:
+UPDATE item SET deleted_at = :at, updated_at = :at WHERE id = :id;
