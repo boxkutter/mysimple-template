@@ -15,7 +15,7 @@ Rules that are easy to miss:
 - Synced entity names are shared by every app on the server: make them specific (`risk_assessment`, not `item`).
 - After the first release, database changes are migrations (`.sqm`); never edit a released one.
 - UK English in the UI; accessibility rules in conventions.md.
-- The server code is in the Mobile Auditor repository (`boxkutter/mobileauditor`), not here. Don't change it from this repository.
+- The server code is in the My Simple ISO platform repository (`boxkutter/iso`), not here. Don't change it from this repository. The contract the app relies on is `iso/docs/specification/platform-contract.md`.
 - Generic improvements (anything every app would want) also go to the template, with an entry in `docs/template-changelog.md`.
 
 Checks: `cd mobile && ./gradlew :shared:testAndroidHostTest :androidApp:assembleDebug` (needs the Android SDK).

@@ -7,9 +7,9 @@ It is the Mobile Auditor's foundation with the auditing taken out: the platform 
 | | |
 |---|---|
 | **Reference app** | Mobile Auditor (`boxkutter/mobileauditor`), derived at commit `f384bf9` |
-| **Platform server** | `https://mobileauditor.h03.eu` (the Mobile Auditor's server; build setting `-Pplatform.baseUrl`) |
+| **Platform server** | `https://mobileauditor.h03.eu` (the My Simple ISO platform, `boxkutter/iso`; build setting `-Pplatform.baseUrl`) |
 | **Stack** | Kotlin Multiplatform · Compose Multiplatform · SQLDelight + SQLCipher · Ktor · Android 10+ (iOS later) |
-| **Version** | 0.1.0 ([changelog](docs/template-changelog.md)) |
+| **Version** | 0.1.1 ([changelog](docs/template-changelog.md)) |
 
 ## Start a new app
 
@@ -73,7 +73,7 @@ The template is kept current as the apps are built: improvements that every app 
 
 | Document | Contents |
 |---|---|
-| [Platform](docs/platform.md) | How an app connects to the server: identity, tenancy, local data, sync, AI drafting, what needs a server change |
+| [Platform](docs/platform.md) | How an app connects to the My Simple ISO platform (summary; the authoritative contract lives in `boxkutter/iso`) |
 | [Conventions](docs/conventions.md) | Modules, adding a feature, database changes, UI, security, tests |
 | [New app](docs/new-app.md) | Creating an app from the template and making it its own |
 | [Keeping current](docs/keeping-current.md) | What belongs in the template; moving changes between the template and the apps |

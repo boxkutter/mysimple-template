@@ -2,6 +2,13 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.1.1 — the server is the My Simple ISO platform
+
+Documentation only; no code change, nothing to take.
+
+- The server, its deploy stack and `api/openapi.yaml` moved from `boxkutter/mobileauditor` to the My Simple ISO platform (`boxkutter/iso`). `docs/platform.md` is now a summary that points at `iso/docs/specification/platform-contract.md`, the authoritative contract.
+- Announced for platform milestone M1: identity moves to Zitadel (OIDC authorization code + PKCE in the system browser; `GET /v1/me` returns memberships; `X-Org-Id` per call). The template's `AuthApi`/`AuthRepository` change then, with a changelog entry describing how to take it.
+
 ## 0.1.0 — first version
 
 Derived from the Mobile Auditor at commit `f384bf9`.
