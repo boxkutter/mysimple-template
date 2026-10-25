@@ -16,9 +16,12 @@ Every app made from this template works the same way as the **Mobile Auditor** a
 - **Sync** (§5): every write queues `{op_id, entity_type, entity_id, op_type, payload, base_version}` in the outbox; `POST /v1/sync` returns accepted ops, results, server changes, wipe instructions and a new cursor. Entity names are global; name tables specifically (`risk_assessment`, not `item`) and reuse the platform's names for organisations, contacts, sites and processes (`auditable_unit`). The 37 reserved names are listed in the contract.
 - **AI drafting** (§6): `POST /v1/ai/draft {task, context, current?}`; a draft is always a suggestion; never without an account.
 
-## What changes (platform milestone M1)
+## What changed on the server (platform M1–M2, 25 Oct 2026) and is pending in the apps
 
-Identity moves from email/password to **Zitadel** with OIDC authorization code + PKCE in the system browser (no Play services), tokens kept in the Keystore-wrapped session store, `GET /v1/me` returning memberships, and `X-Org-Id` on every call for multi-organisation users. The template's `AuthApi`/`AuthRepository` are updated when that lands (template changelog). Until then `/v1/auth/login|refresh|logout` work as before.
+- **Identity** (§2): the server now authenticates with **Zitadel** only. OIDC authorization code + PKCE in the system browser (no Play services), discovery by email (`POST /v1/auth/discover`), tokens kept in the Keystore-wrapped session store, `GET /v1/me` returning memberships, and `X-Org-Id` on every call. The password endpoints are gone, so an app on this template cannot sign in until its `AuthApi`/`AuthRepository` are rewritten (template changelog will say which version carries it). Local workspaces attach by **adopt** (`POST /v1/orgs` with the local organisation id) or **remap** (§3.1).
+- **Sync** (§5): `POST /v1/sync` is live with `X-Org-Id` and `X-Device-Id`, result statuses `ACCEPTED, DUPLICATE_ID, CONFLICT, EDIT_WINS, INVALID_TRANSITION, RETRY_LATER, REJECTED`, a change feed with tombstones, an opaque cursor per organisation and a `wipe` list the device must honour and acknowledge (`POST /v1/sync/wipe-ack`).
+- **Attachments** (§5.2): `POST /v1/files/uploads` → pre-signed part URLs → `complete`; the server verifies the SHA-256, scans and encrypts; `file_object` arrives through the feed and evidence rows are linked by hash.
+- **AI drafting** (§6): opt-in per organisation; `reason` says why there is no draft.
 
 ## What a new app needs from the server
 

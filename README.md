@@ -9,7 +9,7 @@ It is the Mobile Auditor's foundation with the auditing taken out: the platform 
 | **Reference app** | Mobile Auditor (`boxkutter/mobileauditor`), derived at commit `f384bf9` |
 | **Platform server** | `https://mobileauditor.h03.eu` (the My Simple ISO platform, `boxkutter/iso`; build setting `-Pplatform.baseUrl`) |
 | **Stack** | Kotlin Multiplatform · Compose Multiplatform · SQLDelight + SQLCipher · Ktor · Android 10+ (iOS later) |
-| **Version** | 0.1.1 ([changelog](docs/template-changelog.md)) |
+| **Version** | 0.1.2 ([changelog](docs/template-changelog.md)) |
 
 ## Start a new app
 

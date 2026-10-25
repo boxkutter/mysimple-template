@@ -2,6 +2,10 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.1.2 — the platform's identity, sync and attachment endpoints exist
+
+Documentation only; no code change yet. `docs/platform.md` describes what the server now does (Zitadel OIDC with PKCE, `POST /v1/sync`, `POST /v1/files/uploads`, per-organisation AI) and what the template's `AuthApi`/`AuthRepository` and outbox sender must become. The password endpoints no longer exist on the server, so an app built from 0.1.x cannot sign in until that code lands (it needs an Android SDK to build; the environment that produced the server side had none).
+
 ## 0.1.1 — the server is the My Simple ISO platform
 
 Documentation only; no code change, nothing to take.
