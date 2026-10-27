@@ -1,0 +1,181 @@
+{
+  "name": "consequence_average",
+  "description": "The overall consequence as the mean of the categories rated, rounded up.",
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Rare",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Unlikely",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Possible",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Likely",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Almost certain",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Very low",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Low",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Medium",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "High",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Very high",
+          "description": ""
+        }
+      ],
+      "categories": [
+        {
+          "key": "financial",
+          "label": "Financial",
+          "descriptors": {
+            "1": "Under 1,000",
+            "5": "Over 1 million"
+          }
+        },
+        {
+          "key": "reputation",
+          "label": "Reputation",
+          "descriptors": {}
+        },
+        {
+          "key": "health_safety",
+          "label": "Health and safety",
+          "descriptors": {}
+        }
+      ],
+      "rule": "AVERAGE_UP"
+    },
+    "factors": [],
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": "#2e7d32",
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": "#f9a825",
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": 180,
+        "review_months": 6
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": "#ef6c00",
+        "min_score": 10,
+        "max_score": 19,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": 90,
+        "review_months": 3
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": "#b71c1c",
+        "min_score": 20,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": 30,
+        "review_months": 1
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "mean rounded up",
+      "input": {
+        "likelihood": 2,
+        "consequences": {
+          "financial": 2,
+          "reputation": 3
+        }
+      },
+      "expected": {
+        "score": 6,
+        "consequence": 3,
+        "level": "MEDIUM"
+      }
+    },
+    {
+      "name": "exact mean",
+      "input": {
+        "likelihood": 4,
+        "consequences": {
+          "financial": 1,
+          "reputation": 3,
+          "health_safety": 5
+        }
+      },
+      "expected": {
+        "score": 12,
+        "consequence": 3,
+        "level": "HIGH"
+      }
+    },
+    {
+      "name": "one category",
+      "input": {
+        "likelihood": 5,
+        "consequences": {
+          "health_safety": 5
+        }
+      },
+      "expected": {
+        "score": 25,
+        "consequence": 5
+      }
+    }
+  ]
+}

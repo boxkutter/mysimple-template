@@ -1,0 +1,231 @@
+{
+  "name": "opportunity",
+  "description": "Risks and opportunities on one methodology: an opportunity is rated likelihood times benefit on its own levels.",
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Rare",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Unlikely",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Possible",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Likely",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Almost certain",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Very low",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Low",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Medium",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "High",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Very high",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [],
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": "#2e7d32",
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": "#f9a825",
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": 180,
+        "review_months": 6
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": "#ef6c00",
+        "min_score": 10,
+        "max_score": 19,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": 90,
+        "review_months": 3
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": "#b71c1c",
+        "min_score": 20,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": 30,
+        "review_months": 1
+      }
+    ],
+    "opportunity": {
+      "benefit": {
+        "label": "Benefit",
+        "levels": [
+          {
+            "level": 1,
+            "label": "Slight",
+            "description": ""
+          },
+          {
+            "level": 2,
+            "label": "Some",
+            "description": ""
+          },
+          {
+            "level": 3,
+            "label": "Clear",
+            "description": ""
+          },
+          {
+            "level": 4,
+            "label": "Substantial",
+            "description": ""
+          },
+          {
+            "level": 5,
+            "label": "Transformational",
+            "description": ""
+          }
+        ]
+      },
+      "levels": [
+        {
+          "key": "MODEST",
+          "label": "Modest",
+          "colour": "#90a4ae",
+          "min_score": 1,
+          "max_score": 8,
+          "rank": 1,
+          "response": "ACCEPT",
+          "time_to_treat_days": null,
+          "review_months": 12
+        },
+        {
+          "key": "WORTHWHILE",
+          "label": "Worthwhile",
+          "colour": "#1e88e5",
+          "min_score": 9,
+          "max_score": 15,
+          "rank": 2,
+          "response": "TREAT",
+          "time_to_treat_days": null,
+          "review_months": 6
+        },
+        {
+          "key": "MAJOR",
+          "label": "Major",
+          "colour": "#3949ab",
+          "min_score": 16,
+          "max_score": null,
+          "rank": 3,
+          "response": "TREAT",
+          "time_to_treat_days": null,
+          "review_months": 3
+        }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "name": "major opportunity",
+      "input": {
+        "kind": "OPPORTUNITY",
+        "likelihood": 4,
+        "benefit": 5
+      },
+      "expected": {
+        "score": 20,
+        "level": "MAJOR",
+        "rank": 3
+      }
+    },
+    {
+      "name": "modest opportunity",
+      "input": {
+        "kind": "OPPORTUNITY",
+        "likelihood": 2,
+        "benefit": 2
+      },
+      "expected": {
+        "score": 4,
+        "level": "MODEST"
+      }
+    },
+    {
+      "name": "benefit missing",
+      "input": {
+        "kind": "OPPORTUNITY",
+        "likelihood": 2
+      },
+      "expected": {
+        "error": "MISSING_INPUT"
+      }
+    },
+    {
+      "name": "a risk on the same methodology",
+      "input": {
+        "likelihood": 4,
+        "consequence": 5
+      },
+      "expected": {
+        "score": 20,
+        "level": "VERY_HIGH"
+      }
+    }
+  ]
+}

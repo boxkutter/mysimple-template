@@ -1,0 +1,224 @@
+{
+  "name": "probability_split",
+  "description": "Severity times probability of harm, the probability derived from the chance of a hazardous situation and the chance that it leads to harm through a table.",
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Probability of harm",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Improbable",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Remote",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Occasional",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Probable",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Frequent",
+          "description": ""
+        }
+      ]
+    },
+    "likelihood_split": {
+      "factors": [
+        "p_situation",
+        "p_harm"
+      ],
+      "table": {
+        "1-1": 1,
+        "1-2": 2,
+        "1-3": 3,
+        "2-1": 2,
+        "2-2": 3,
+        "2-3": 4,
+        "3-1": 3,
+        "3-2": 4,
+        "3-3": 5
+      }
+    },
+    "consequence": {
+      "label": "Severity",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Negligible",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Minor",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Serious",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Critical",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Catastrophic",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [
+      {
+        "key": "p_situation",
+        "label": "Chance of the hazardous situation",
+        "role": "PROBABILITY_PART",
+        "levels": [
+          {
+            "level": 1,
+            "label": "Low",
+            "description": ""
+          },
+          {
+            "level": 2,
+            "label": "Medium",
+            "description": ""
+          },
+          {
+            "level": 3,
+            "label": "High",
+            "description": ""
+          }
+        ]
+      },
+      {
+        "key": "p_harm",
+        "label": "Chance it leads to harm",
+        "role": "PROBABILITY_PART",
+        "levels": [
+          {
+            "level": 1,
+            "label": "Low",
+            "description": ""
+          },
+          {
+            "level": 2,
+            "label": "Medium",
+            "description": ""
+          },
+          {
+            "level": 3,
+            "label": "High",
+            "description": ""
+          }
+        ]
+      }
+    ],
+    "levels": [
+      {
+        "key": "ACCEPTABLE",
+        "label": "Acceptable",
+        "colour": "#2e7d32",
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "REDUCE",
+        "label": "Reduce as far as possible",
+        "colour": "#f9a825",
+        "min_score": 5,
+        "max_score": 12,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": 90,
+        "review_months": 6
+      },
+      {
+        "key": "UNACCEPTABLE",
+        "label": "Unacceptable",
+        "colour": "#c62828",
+        "min_score": 13,
+        "max_score": null,
+        "rank": 3,
+        "response": "STOP",
+        "time_to_treat_days": 30,
+        "review_months": 3
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "derived probability",
+      "input": {
+        "consequence": 5,
+        "factors": {
+          "p_situation": 3,
+          "p_harm": 2
+        }
+      },
+      "expected": {
+        "likelihood": 4,
+        "score": 20,
+        "level": "UNACCEPTABLE",
+        "response": "STOP"
+      }
+    },
+    {
+      "name": "probability given directly",
+      "input": {
+        "likelihood": 2,
+        "consequence": 5
+      },
+      "expected": {
+        "likelihood": 2,
+        "score": 10,
+        "level": "REDUCE"
+      }
+    },
+    {
+      "name": "lowest",
+      "input": {
+        "consequence": 1,
+        "factors": {
+          "p_situation": 1,
+          "p_harm": 1
+        }
+      },
+      "expected": {
+        "likelihood": 1,
+        "score": 1,
+        "level": "ACCEPTABLE"
+      }
+    },
+    {
+      "name": "a part missing",
+      "input": {
+        "consequence": 3,
+        "factors": {
+          "p_situation": 2
+        }
+      },
+      "expected": {
+        "error": "MISSING_INPUT"
+      }
+    }
+  ]
+}

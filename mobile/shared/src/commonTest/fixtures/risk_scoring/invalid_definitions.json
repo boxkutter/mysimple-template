@@ -1,0 +1,1184 @@
+{
+  "name": "invalid_definitions",
+  "description": "Definitions the engine refuses (INVALID_DEFINITION) before they can be saved or approved.",
+  "invalid_definitions": [
+    {
+      "name": "unknown method",
+      "definition": {
+        "method": "GUESS",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Rare",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Unlikely",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Possible",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Likely",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Almost certain",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Minimal",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Minor",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Moderate",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Major",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Severe",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {
+                "1": "Under 1,000",
+                "5": "Over 1 million"
+              }
+            },
+            {
+              "key": "reputation",
+              "label": "Reputation",
+              "descriptors": {}
+            },
+            {
+              "key": "health_safety",
+              "label": "Health and safety",
+              "descriptors": {}
+            },
+            {
+              "key": "legal",
+              "label": "Legal and regulatory",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": "#2e7d32",
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": 12
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": "#f9a825",
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": 180,
+            "review_months": 6
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": "#ef6c00",
+            "min_score": 10,
+            "max_score": 19,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": 90,
+            "review_months": 3
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": "#b71c1c",
+            "min_score": 20,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": 30,
+            "review_months": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "overlapping levels",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Rare",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Unlikely",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Possible",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Likely",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Almost certain",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Minimal",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Minor",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Moderate",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Major",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Severe",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {
+                "1": "Under 1,000",
+                "5": "Over 1 million"
+              }
+            },
+            {
+              "key": "reputation",
+              "label": "Reputation",
+              "descriptors": {}
+            },
+            {
+              "key": "health_safety",
+              "label": "Health and safety",
+              "descriptors": {}
+            },
+            {
+              "key": "legal",
+              "label": "Legal and regulatory",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "A",
+            "label": "A",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 10,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "B",
+            "label": "B",
+            "colour": null,
+            "min_score": 10,
+            "max_score": null,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "a score in no level",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Rare",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Unlikely",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Possible",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Likely",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Almost certain",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Minimal",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Minor",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Moderate",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Major",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Severe",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {
+                "1": "Under 1,000",
+                "5": "Over 1 million"
+              }
+            },
+            {
+              "key": "reputation",
+              "label": "Reputation",
+              "descriptors": {}
+            },
+            {
+              "key": "health_safety",
+              "label": "Health and safety",
+              "descriptors": {}
+            },
+            {
+              "key": "legal",
+              "label": "Legal and regulatory",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "A",
+            "label": "A",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 9,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "B",
+            "label": "B",
+            "colour": null,
+            "min_score": 11,
+            "max_score": null,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate likelihood level",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "L",
+          "levels": [
+            {
+              "level": 1,
+              "label": "a"
+            },
+            {
+              "level": 1,
+              "label": "b"
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Minimal",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Minor",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Moderate",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Major",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Severe",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {
+                "1": "Under 1,000",
+                "5": "Over 1 million"
+              }
+            },
+            {
+              "key": "reputation",
+              "label": "Reputation",
+              "descriptors": {}
+            },
+            {
+              "key": "health_safety",
+              "label": "Health and safety",
+              "descriptors": {}
+            },
+            {
+              "key": "legal",
+              "label": "Legal and regulatory",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": "#2e7d32",
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": 12
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": "#f9a825",
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": 180,
+            "review_months": 6
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": "#ef6c00",
+            "min_score": 10,
+            "max_score": 19,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": 90,
+            "review_months": 3
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": "#b71c1c",
+            "min_score": 20,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": 30,
+            "review_months": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "incomplete matrix",
+      "definition": {
+        "method": "MATRIX",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Low",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Medium",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "High",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Low",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Medium",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "High",
+              "description": ""
+            }
+          ],
+          "categories": [],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "matrix": {
+          "1-1": 1
+        },
+        "levels": [
+          {
+            "key": "GREEN",
+            "label": "Green",
+            "colour": "#2e7d32",
+            "min_score": 1,
+            "max_score": 3,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": 12
+          },
+          {
+            "key": "AMBER",
+            "label": "Amber",
+            "colour": "#f9a825",
+            "min_score": 4,
+            "max_score": 6,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": 90,
+            "review_months": 6
+          },
+          {
+            "key": "RED",
+            "label": "Red",
+            "colour": "#c62828",
+            "min_score": 7,
+            "max_score": 9,
+            "rank": 3,
+            "response": "ESCALATE",
+            "time_to_treat_days": 30,
+            "review_months": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "FMEA without detection",
+      "definition": {
+        "method": "FMEA_RPN",
+        "likelihood": {
+          "label": "Occurrence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Severity",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ],
+          "categories": [],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": "#2e7d32",
+            "min_score": 1,
+            "max_score": 99,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": 12
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": "#f9a825",
+            "min_score": 100,
+            "max_score": 199,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": 90,
+            "review_months": 6
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": "#c62828",
+            "min_score": 200,
+            "max_score": null,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": 30,
+            "review_months": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown response",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Rare",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Unlikely",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Possible",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Likely",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Almost certain",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Minimal",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Minor",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Moderate",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Major",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Severe",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {
+                "1": "Under 1,000",
+                "5": "Over 1 million"
+              }
+            },
+            {
+              "key": "reputation",
+              "label": "Reputation",
+              "descriptors": {}
+            },
+            {
+              "key": "health_safety",
+              "label": "Health and safety",
+              "descriptors": {}
+            },
+            {
+              "key": "legal",
+              "label": "Legal and regulatory",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "A",
+            "label": "A",
+            "colour": null,
+            "min_score": 1,
+            "max_score": null,
+            "rank": 1,
+            "response": "IGNORE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "level rank zero",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Rare",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Unlikely",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Possible",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Likely",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Almost certain",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Minimal",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Minor",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Moderate",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Major",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Severe",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {
+                "1": "Under 1,000",
+                "5": "Over 1 million"
+              }
+            },
+            {
+              "key": "reputation",
+              "label": "Reputation",
+              "descriptors": {}
+            },
+            {
+              "key": "health_safety",
+              "label": "Health and safety",
+              "descriptors": {}
+            },
+            {
+              "key": "legal",
+              "label": "Legal and regulatory",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "A",
+            "label": "A",
+            "colour": null,
+            "min_score": 1,
+            "max_score": null,
+            "rank": 0,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "time points out of order",
+      "definition": {
+        "method": "IMPACT_OVER_TIME",
+        "consequence": {
+          "label": "Impact",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Negligible",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Minor",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Moderate",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Major",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Severe",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {}
+            },
+            {
+              "key": "customers",
+              "label": "Customers",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "time_points": [
+          {
+            "key": "d1",
+            "label": "1 day",
+            "hours": 24
+          },
+          {
+            "key": "h4",
+            "label": "4 hours",
+            "hours": 4
+          }
+        ],
+        "intolerable_level": 4,
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": "#2e7d32",
+            "min_score": 1,
+            "max_score": 2,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": 12
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": "#f9a825",
+            "min_score": 3,
+            "max_score": 3,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": 180,
+            "review_months": 12
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": "#c62828",
+            "min_score": 4,
+            "max_score": 5,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": 90,
+            "review_months": 6
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate category",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Rare",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Unlikely",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Possible",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Likely",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Almost certain",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "Minimal",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "Minor",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "Moderate",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "Major",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "Severe",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {
+                "1": "Under 1,000",
+                "5": "Over 1 million"
+              }
+            },
+            {
+              "key": "financial",
+              "label": "Financial",
+              "descriptors": {
+                "1": "Under 1,000",
+                "5": "Over 1 million"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": "#2e7d32",
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": 12
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": "#f9a825",
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": 180,
+            "review_months": 6
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": "#ef6c00",
+            "min_score": 10,
+            "max_score": 19,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": 90,
+            "review_months": 3
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": "#b71c1c",
+            "min_score": 20,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": 30,
+            "review_months": 1
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "name": "multiply_5x5",
+  "description": "Likelihood times consequence on five-level scales, one consequence category: the shape of the generic criteria before M13, with the acceptance threshold (6) as the boundary between two levels.",
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Very low",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Low",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Medium",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "High",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Very high",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Impact",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Very low",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Low",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Medium",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "High",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Very high",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [],
+    "levels": [
+      {
+        "key": "WITHIN_THRESHOLD",
+        "label": "Within threshold",
+        "colour": "#2e7d32",
+        "min_score": 0,
+        "max_score": 6,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "ABOVE_THRESHOLD",
+        "label": "Above threshold",
+        "colour": "#c62828",
+        "min_score": 7,
+        "max_score": null,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "below the threshold",
+      "input": {
+        "likelihood": 2,
+        "consequence": 3
+      },
+      "expected": {
+        "score": 6,
+        "likelihood": 2,
+        "consequence": 3,
+        "level": "WITHIN_THRESHOLD",
+        "rank": 1,
+        "response": "ACCEPT"
+      }
+    },
+    {
+      "name": "above the threshold",
+      "input": {
+        "likelihood": 4,
+        "consequence": 5
+      },
+      "expected": {
+        "score": 20,
+        "level": "ABOVE_THRESHOLD",
+        "rank": 3,
+        "response": "TREAT"
+      }
+    },
+    {
+      "name": "lowest",
+      "input": {
+        "likelihood": 1,
+        "consequence": 1
+      },
+      "expected": {
+        "score": 1,
+        "level": "WITHIN_THRESHOLD"
+      }
+    },
+    {
+      "name": "five",
+      "input": {
+        "likelihood": 1,
+        "consequence": 5
+      },
+      "expected": {
+        "score": 5,
+        "level": "WITHIN_THRESHOLD"
+      }
+    },
+    {
+      "name": "boundary plus two",
+      "input": {
+        "likelihood": 2,
+        "consequence": 4
+      },
+      "expected": {
+        "score": 8,
+        "level": "ABOVE_THRESHOLD"
+      }
+    },
+    {
+      "name": "likelihood off the scale",
+      "input": {
+        "likelihood": 6,
+        "consequence": 1
+      },
+      "expected": {
+        "error": "NOT_ON_SCALE"
+      }
+    },
+    {
+      "name": "likelihood zero",
+      "input": {
+        "likelihood": 0,
+        "consequence": 1
+      },
+      "expected": {
+        "error": "NOT_ON_SCALE"
+      }
+    },
+    {
+      "name": "likelihood missing",
+      "input": {
+        "consequence": 3
+      },
+      "expected": {
+        "error": "MISSING_INPUT"
+      }
+    },
+    {
+      "name": "consequence missing",
+      "input": {
+        "likelihood": 3
+      },
+      "expected": {
+        "error": "MISSING_INPUT"
+      }
+    },
+    {
+      "name": "no opportunity scale",
+      "input": {
+        "kind": "OPPORTUNITY",
+        "likelihood": 3,
+        "benefit": 3
+      },
+      "expected": {
+        "error": "NO_OPPORTUNITY_SCALE"
+      }
+    }
+  ]
+}

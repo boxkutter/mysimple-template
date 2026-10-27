@@ -1,0 +1,130 @@
+{
+  "name": "sum_4x4",
+  "description": "Likelihood plus consequence on four-level scales.",
+  "definition": {
+    "method": "SUM",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Unlikely",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Possible",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Likely",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Certain",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Minor",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Moderate",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Major",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Severe",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [],
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": "#2e7d32",
+        "min_score": 2,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": "#f9a825",
+        "min_score": 5,
+        "max_score": 6,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": 90,
+        "review_months": 6
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": "#c62828",
+        "min_score": 7,
+        "max_score": 8,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": 30,
+        "review_months": 3
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "sum",
+      "input": {
+        "likelihood": 3,
+        "consequence": 4
+      },
+      "expected": {
+        "score": 7,
+        "level": "HIGH"
+      }
+    },
+    {
+      "name": "lowest",
+      "input": {
+        "likelihood": 1,
+        "consequence": 1
+      },
+      "expected": {
+        "score": 2,
+        "level": "LOW"
+      }
+    },
+    {
+      "name": "middle",
+      "input": {
+        "likelihood": 2,
+        "consequence": 3
+      },
+      "expected": {
+        "score": 5,
+        "level": "MEDIUM"
+      }
+    }
+  ]
+}

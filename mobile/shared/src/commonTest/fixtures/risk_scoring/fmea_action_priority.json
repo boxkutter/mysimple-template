@@ -1,0 +1,339 @@
+{
+  "name": "fmea_action_priority",
+  "description": "An action-priority table over severity, occurrence and detection: the first rule that matches gives the priority (3 high, 2 medium, 1 low). The rules here are illustrative, an organisation's own.",
+  "definition": {
+    "method": "FMEA_ACTION_PRIORITY",
+    "likelihood": {
+      "label": "Occurrence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        },
+        {
+          "level": 6,
+          "label": "6",
+          "description": ""
+        },
+        {
+          "level": 7,
+          "label": "7",
+          "description": ""
+        },
+        {
+          "level": 8,
+          "label": "8",
+          "description": ""
+        },
+        {
+          "level": 9,
+          "label": "9",
+          "description": ""
+        },
+        {
+          "level": 10,
+          "label": "10",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Severity",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        },
+        {
+          "level": 6,
+          "label": "6",
+          "description": ""
+        },
+        {
+          "level": 7,
+          "label": "7",
+          "description": ""
+        },
+        {
+          "level": 8,
+          "label": "8",
+          "description": ""
+        },
+        {
+          "level": 9,
+          "label": "9",
+          "description": ""
+        },
+        {
+          "level": 10,
+          "label": "10",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [
+      {
+        "key": "detection",
+        "label": "Detection",
+        "role": "DETECTION",
+        "levels": [
+          {
+            "level": 1,
+            "label": "1",
+            "description": ""
+          },
+          {
+            "level": 2,
+            "label": "2",
+            "description": ""
+          },
+          {
+            "level": 3,
+            "label": "3",
+            "description": ""
+          },
+          {
+            "level": 4,
+            "label": "4",
+            "description": ""
+          },
+          {
+            "level": 5,
+            "label": "5",
+            "description": ""
+          },
+          {
+            "level": 6,
+            "label": "6",
+            "description": ""
+          },
+          {
+            "level": 7,
+            "label": "7",
+            "description": ""
+          },
+          {
+            "level": 8,
+            "label": "8",
+            "description": ""
+          },
+          {
+            "level": 9,
+            "label": "9",
+            "description": ""
+          },
+          {
+            "level": 10,
+            "label": "10",
+            "description": ""
+          }
+        ]
+      }
+    ],
+    "levels": [
+      {
+        "key": "AP_LOW",
+        "label": "Low priority",
+        "colour": "#2e7d32",
+        "min_score": 1,
+        "max_score": 1,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "AP_MEDIUM",
+        "label": "Medium priority",
+        "colour": "#f9a825",
+        "min_score": 2,
+        "max_score": 2,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": 90,
+        "review_months": 6
+      },
+      {
+        "key": "AP_HIGH",
+        "label": "High priority",
+        "colour": "#c62828",
+        "min_score": 3,
+        "max_score": 3,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": 30,
+        "review_months": 3
+      }
+    ],
+    "action_priority": [
+      {
+        "severity": [
+          9,
+          10
+        ],
+        "occurrence": [
+          4,
+          10
+        ],
+        "score": 3
+      },
+      {
+        "severity": [
+          9,
+          10
+        ],
+        "detection": [
+          5,
+          10
+        ],
+        "score": 3
+      },
+      {
+        "severity": [
+          7,
+          10
+        ],
+        "occurrence": [
+          6,
+          10
+        ],
+        "score": 2
+      },
+      {
+        "severity": [
+          5,
+          10
+        ],
+        "occurrence": [
+          4,
+          10
+        ],
+        "detection": [
+          7,
+          10
+        ],
+        "score": 2
+      },
+      {
+        "score": 1
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "severe and frequent",
+      "input": {
+        "consequence": 9,
+        "likelihood": 5,
+        "factors": {
+          "detection": 2
+        }
+      },
+      "expected": {
+        "score": 3,
+        "level": "AP_HIGH"
+      }
+    },
+    {
+      "name": "severe and hard to detect",
+      "input": {
+        "consequence": 10,
+        "likelihood": 2,
+        "factors": {
+          "detection": 6
+        }
+      },
+      "expected": {
+        "score": 3,
+        "level": "AP_HIGH"
+      }
+    },
+    {
+      "name": "serious and frequent",
+      "input": {
+        "consequence": 8,
+        "likelihood": 7,
+        "factors": {
+          "detection": 1
+        }
+      },
+      "expected": {
+        "score": 2,
+        "level": "AP_MEDIUM"
+      }
+    },
+    {
+      "name": "moderate, poorly detected",
+      "input": {
+        "consequence": 5,
+        "likelihood": 4,
+        "factors": {
+          "detection": 8
+        }
+      },
+      "expected": {
+        "score": 2,
+        "level": "AP_MEDIUM"
+      }
+    },
+    {
+      "name": "the rest",
+      "input": {
+        "consequence": 3,
+        "likelihood": 3,
+        "factors": {
+          "detection": 3
+        }
+      },
+      "expected": {
+        "score": 1,
+        "level": "AP_LOW",
+        "response": "ACCEPT"
+      }
+    }
+  ]
+}

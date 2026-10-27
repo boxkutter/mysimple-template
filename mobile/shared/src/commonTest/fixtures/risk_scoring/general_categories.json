@@ -1,0 +1,252 @@
+{
+  "name": "general_categories",
+  "description": "Five by five, several consequence categories; the overall consequence is the worst category.",
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Rare",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Unlikely",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Possible",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Likely",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Almost certain",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Minimal",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Minor",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Moderate",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Major",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Severe",
+          "description": ""
+        }
+      ],
+      "categories": [
+        {
+          "key": "financial",
+          "label": "Financial",
+          "descriptors": {
+            "1": "Under 1,000",
+            "5": "Over 1 million"
+          }
+        },
+        {
+          "key": "reputation",
+          "label": "Reputation",
+          "descriptors": {}
+        },
+        {
+          "key": "health_safety",
+          "label": "Health and safety",
+          "descriptors": {}
+        },
+        {
+          "key": "legal",
+          "label": "Legal and regulatory",
+          "descriptors": {}
+        }
+      ],
+      "rule": "WORST"
+    },
+    "factors": [],
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": "#2e7d32",
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": "#f9a825",
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": 180,
+        "review_months": 6
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": "#ef6c00",
+        "min_score": 10,
+        "max_score": 19,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": 90,
+        "review_months": 3
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": "#b71c1c",
+        "min_score": 20,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": 30,
+        "review_months": 1
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "worst category decides",
+      "input": {
+        "likelihood": 3,
+        "consequences": {
+          "financial": 2,
+          "reputation": 4
+        }
+      },
+      "expected": {
+        "score": 12,
+        "consequence": 4,
+        "likelihood": 3,
+        "level": "HIGH",
+        "rank": 3,
+        "response": "TREAT"
+      }
+    },
+    {
+      "name": "consequence agrees with the categories",
+      "input": {
+        "likelihood": 3,
+        "consequence": 4,
+        "consequences": {
+          "financial": 2,
+          "reputation": 4
+        }
+      },
+      "expected": {
+        "score": 12,
+        "level": "HIGH"
+      }
+    },
+    {
+      "name": "consequence disagrees with the categories",
+      "input": {
+        "likelihood": 3,
+        "consequence": 3,
+        "consequences": {
+          "financial": 2,
+          "reputation": 4
+        }
+      },
+      "expected": {
+        "error": "INCONSISTENT_CONSEQUENCE"
+      }
+    },
+    {
+      "name": "unknown category",
+      "input": {
+        "likelihood": 3,
+        "consequences": {
+          "weather": 2
+        }
+      },
+      "expected": {
+        "error": "UNKNOWN_CATEGORY"
+      }
+    },
+    {
+      "name": "category off the scale",
+      "input": {
+        "likelihood": 3,
+        "consequences": {
+          "legal": 7
+        }
+      },
+      "expected": {
+        "error": "NOT_ON_SCALE"
+      }
+    },
+    {
+      "name": "top corner",
+      "input": {
+        "likelihood": 5,
+        "consequence": 5
+      },
+      "expected": {
+        "score": 25,
+        "level": "VERY_HIGH",
+        "rank": 4,
+        "response": "ESCALATE"
+      }
+    },
+    {
+      "name": "low",
+      "input": {
+        "likelihood": 1,
+        "consequences": {
+          "health_safety": 4
+        }
+      },
+      "expected": {
+        "score": 4,
+        "level": "LOW",
+        "response": "ACCEPT"
+      }
+    },
+    {
+      "name": "medium",
+      "input": {
+        "likelihood": 3,
+        "consequence": 3
+      },
+      "expected": {
+        "score": 9,
+        "level": "MEDIUM",
+        "rank": 2
+      }
+    }
+  ]
+}

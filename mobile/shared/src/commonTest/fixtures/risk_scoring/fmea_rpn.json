@@ -1,0 +1,311 @@
+{
+  "name": "fmea_rpn",
+  "description": "Severity times occurrence times detection (risk priority number), ten-level scales.",
+  "definition": {
+    "method": "FMEA_RPN",
+    "likelihood": {
+      "label": "Occurrence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        },
+        {
+          "level": 6,
+          "label": "6",
+          "description": ""
+        },
+        {
+          "level": 7,
+          "label": "7",
+          "description": ""
+        },
+        {
+          "level": 8,
+          "label": "8",
+          "description": ""
+        },
+        {
+          "level": 9,
+          "label": "9",
+          "description": ""
+        },
+        {
+          "level": 10,
+          "label": "10",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Severity",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        },
+        {
+          "level": 6,
+          "label": "6",
+          "description": ""
+        },
+        {
+          "level": 7,
+          "label": "7",
+          "description": ""
+        },
+        {
+          "level": 8,
+          "label": "8",
+          "description": ""
+        },
+        {
+          "level": 9,
+          "label": "9",
+          "description": ""
+        },
+        {
+          "level": 10,
+          "label": "10",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [
+      {
+        "key": "detection",
+        "label": "Detection",
+        "role": "DETECTION",
+        "levels": [
+          {
+            "level": 1,
+            "label": "1",
+            "description": ""
+          },
+          {
+            "level": 2,
+            "label": "2",
+            "description": ""
+          },
+          {
+            "level": 3,
+            "label": "3",
+            "description": ""
+          },
+          {
+            "level": 4,
+            "label": "4",
+            "description": ""
+          },
+          {
+            "level": 5,
+            "label": "5",
+            "description": ""
+          },
+          {
+            "level": 6,
+            "label": "6",
+            "description": ""
+          },
+          {
+            "level": 7,
+            "label": "7",
+            "description": ""
+          },
+          {
+            "level": 8,
+            "label": "8",
+            "description": ""
+          },
+          {
+            "level": 9,
+            "label": "9",
+            "description": ""
+          },
+          {
+            "level": 10,
+            "label": "10",
+            "description": ""
+          }
+        ]
+      }
+    ],
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": "#2e7d32",
+        "min_score": 1,
+        "max_score": 99,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": "#f9a825",
+        "min_score": 100,
+        "max_score": 199,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": 90,
+        "review_months": 6
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": "#c62828",
+        "min_score": 200,
+        "max_score": null,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": 30,
+        "review_months": 3
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "high RPN",
+      "input": {
+        "consequence": 8,
+        "likelihood": 5,
+        "factors": {
+          "detection": 6
+        }
+      },
+      "expected": {
+        "score": 240,
+        "level": "HIGH",
+        "rank": 3,
+        "likelihood": 5,
+        "consequence": 8
+      }
+    },
+    {
+      "name": "low RPN",
+      "input": {
+        "consequence": 2,
+        "likelihood": 3,
+        "factors": {
+          "detection": 4
+        }
+      },
+      "expected": {
+        "score": 24,
+        "level": "LOW"
+      }
+    },
+    {
+      "name": "boundary 100",
+      "input": {
+        "consequence": 5,
+        "likelihood": 5,
+        "factors": {
+          "detection": 4
+        }
+      },
+      "expected": {
+        "score": 100,
+        "level": "MEDIUM"
+      }
+    },
+    {
+      "name": "maximum",
+      "input": {
+        "consequence": 10,
+        "likelihood": 10,
+        "factors": {
+          "detection": 10
+        }
+      },
+      "expected": {
+        "score": 1000,
+        "level": "HIGH"
+      }
+    },
+    {
+      "name": "detection missing",
+      "input": {
+        "consequence": 8,
+        "likelihood": 5
+      },
+      "expected": {
+        "error": "MISSING_INPUT"
+      }
+    },
+    {
+      "name": "detection off the scale",
+      "input": {
+        "consequence": 8,
+        "likelihood": 5,
+        "factors": {
+          "detection": 11
+        }
+      },
+      "expected": {
+        "error": "NOT_ON_SCALE"
+      }
+    },
+    {
+      "name": "unknown factor",
+      "input": {
+        "consequence": 8,
+        "likelihood": 5,
+        "factors": {
+          "detection": 2,
+          "luck": 3
+        }
+      },
+      "expected": {
+        "error": "UNKNOWN_FACTOR"
+      }
+    }
+  ]
+}

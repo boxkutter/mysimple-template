@@ -1,0 +1,194 @@
+{
+  "name": "hazard_exposure",
+  "description": "Severity times likelihood for hazards, with the people exposed recorded as a factor that does not change the score.",
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "Rare",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Unlikely",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Possible",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Likely",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Almost certain",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Severity",
+      "levels": [
+        {
+          "level": 1,
+          "label": "First aid",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "Minor injury",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "Lost time",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "Major injury",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "Fatality",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [
+      {
+        "key": "exposure",
+        "label": "People exposed",
+        "role": "EXPOSURE",
+        "levels": [
+          {
+            "level": 1,
+            "label": "A few",
+            "description": ""
+          },
+          {
+            "level": 2,
+            "label": "A team",
+            "description": ""
+          },
+          {
+            "level": 3,
+            "label": "Many",
+            "description": ""
+          }
+        ]
+      }
+    ],
+    "levels": [
+      {
+        "key": "TRIVIAL",
+        "label": "Trivial",
+        "colour": "#2e7d32",
+        "min_score": 1,
+        "max_score": 3,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": 12
+      },
+      {
+        "key": "MODERATE",
+        "label": "Moderate",
+        "colour": "#f9a825",
+        "min_score": 4,
+        "max_score": 8,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": 90,
+        "review_months": 6
+      },
+      {
+        "key": "SUBSTANTIAL",
+        "label": "Substantial",
+        "colour": "#ef6c00",
+        "min_score": 9,
+        "max_score": 15,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": 30,
+        "review_months": 3
+      },
+      {
+        "key": "INTOLERABLE",
+        "label": "Intolerable",
+        "colour": "#b71c1c",
+        "min_score": 16,
+        "max_score": null,
+        "rank": 4,
+        "response": "STOP",
+        "time_to_treat_days": 1,
+        "review_months": 1
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "intolerable",
+      "input": {
+        "likelihood": 4,
+        "consequence": 5,
+        "factors": {
+          "exposure": 3
+        }
+      },
+      "expected": {
+        "score": 20,
+        "level": "INTOLERABLE",
+        "rank": 4,
+        "response": "STOP"
+      }
+    },
+    {
+      "name": "moderate",
+      "input": {
+        "likelihood": 2,
+        "consequence": 2
+      },
+      "expected": {
+        "score": 4,
+        "level": "MODERATE"
+      }
+    },
+    {
+      "name": "exposure off the scale",
+      "input": {
+        "likelihood": 2,
+        "consequence": 2,
+        "factors": {
+          "exposure": 9
+        }
+      },
+      "expected": {
+        "error": "NOT_ON_SCALE"
+      }
+    },
+    {
+      "name": "unknown factor",
+      "input": {
+        "likelihood": 2,
+        "consequence": 2,
+        "factors": {
+          "noise": 1
+        }
+      },
+      "expected": {
+        "error": "UNKNOWN_FACTOR"
+      }
+    }
+  ]
+}

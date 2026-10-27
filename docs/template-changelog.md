@@ -2,6 +2,13 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.1.4 — the shared risk scoring engine (platform M13)
+
+- **New:** `mobile/shared/src/commonMain/kotlin/app/simpletemplate/shared/risk/RiskScoring.kt`, pure Kotlin (no database, no platform code): the platform's fixed set of risk scoring methods (likelihood × consequence, sum, matrix, FMEA risk priority number and action-priority table, threat × vulnerability × consequence, impact over time), consequence categories, factors, levels with their response, rank, time to treat and review frequency. `RiskScoring.validate(definition)` and `RiskScoring.score(definition, input)` take the platform's JSON (a methodology's approved `definition` from `GET /v1/orgs/{org_id}/risk/methodologies/published`). Errors carry the server's codes.
+- **Tested against the server's fixtures:** `mobile/shared/src/commonTest/fixtures/risk_scoring/` is a byte-identical copy of `iso/server/tests/fixtures/risk_scoring/` with the same `MANIFEST.sha256`; `RiskScoringFixturesTest` runs every case and checks the copy against the manifest. To update: change the fixtures in iso first, then `iso/scripts/risk-fixtures-manifest.sh --sync <this repo>/mobile/shared/src/commonTest/fixtures/risk_scoring`, then make both engines pass. Never edit the copy here.
+- **Contract (platform ADR 0030 §6):** `risk_criteria` is organisation-owned since M13 (a device's write is `REJECTED`); `risk` and `risk_assessment` gain optional and server-owned columns (the level, appetite, methodology version, `consequences`, `factors`). An app that ignores them keeps working.
+- To take it: copy the `risk` package and its test with the fixtures. Nothing else changes.
+
 ## 0.1.3 — server contract notes
 
 - The platform now synchronises the risk registers (`risk_criteria`, `risk`, `risk_assessment`, `risk_treatment`, `hazard`, `ohs_incident`, `environmental_aspect`) through `POST /v1/sync` with the registers' own rules applied (a field assessment is scored and rolled up by the server). Specification for the app that uses them: `iso/docs/specification/my-simple-risk.md`.

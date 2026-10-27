@@ -26,3 +26,7 @@ Every app made from this template works the same way as the **Mobile Auditor** a
 ## What a new app needs from the server
 
 See contract §7: register the app's entity names and a `SyncPolicy` per entity, add AI tasks and a system prompt, add reference-data modules as needed. After any server change, refresh `api/openapi.yaml` in `iso` and mirror the wire types in the app's `shared` module.
+
+## Risk methodologies (platform M13)
+
+An organisation rates risks with its own methodologies (platform ADR 0022, ADR 0030). In an organisation workspace an app reads them read-only from `GET /v1/orgs/{org_id}/risk/methodologies/published` and scores locally with `shared/risk/RiskScoring` (the same fixed methods as the server, tested against the same fixtures) to show the level while the user rates; the server re-rates what is synced and its level counts. `risk_criteria` is organisation-owned since M13. Contract §7.6.
