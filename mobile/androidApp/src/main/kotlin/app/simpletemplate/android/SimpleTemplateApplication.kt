@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import app.simpletemplate.shared.AppContainer
 import app.simpletemplate.shared.PlatformNetwork
+import app.simpletemplate.shared.ServerAddress
 import app.simpletemplate.shared.auth.EncryptedSessionStore
 import app.simpletemplate.shared.auth.OidcSettings
 import app.simpletemplate.shared.data.DirectoryFileStorage
@@ -15,7 +16,14 @@ class SimpleTemplateApplication : Application() {
     val container: AppContainer by lazy {
         PlatformNetwork.resolveLocalhostToLoopback = BuildConfig.LOOPBACK_LOCALHOST
         AppContainer(
-            baseUrl = BuildConfig.BASE_URL,
+            // Debug builds: the user may point the app at a development server (Status →
+            // Connection), whose LAN address changes; release builds keep the build's address.
+            server = ServerAddress(
+                store = ServerAddressPreferences(this),
+                defaultBaseUrl = BuildConfig.BASE_URL,
+                defaultIssuer = BuildConfig.OIDC_ISSUER,
+                editable = BuildConfig.DEBUG,
+            ),
             oidcSettings = OidcSettings(
                 issuer = BuildConfig.OIDC_ISSUER,
                 clientId = BuildConfig.OIDC_CLIENT_ID,

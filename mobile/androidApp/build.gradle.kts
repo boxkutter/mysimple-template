@@ -58,9 +58,10 @@ abstract class DevNetworkConfigTask : DefaultTask() {
         } else ""
         File(xml, "network_security_config.xml").writeText(
             """<?xml version="1.0" encoding="utf-8"?>
-<!-- Generated for debug builds (androidApp/build.gradle.kts). -->
+<!-- Generated for debug builds (androidApp/build.gradle.kts). Plain HTTP is allowed: the
+     platform's development stack on a LAN address (iso deploy/lan.sh). -->
 <network-security-config>
-    <base-config cleartextTrafficPermitted="false" />$trust
+    <base-config cleartextTrafficPermitted="true" />$trust
 </network-security-config>
 """,
         )
@@ -88,8 +89,8 @@ android {
         applicationId = "app.simpletemplate"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = 3
+        versionName = "0.2.1"
         manifestPlaceholders["oidcScheme"] = oidcScheme
         buildConfigField("String", "OIDC_SCHEME", "\"$oidcScheme\"")
         buildConfigField("String", "BASE_URL", "\"${setting("platform.baseUrl") ?: "https://platform.not-configured.invalid"}\"")

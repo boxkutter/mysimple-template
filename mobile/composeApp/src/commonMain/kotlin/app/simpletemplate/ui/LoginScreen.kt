@@ -40,7 +40,11 @@ import kotlinx.coroutines.launch
  * [onSignedIn] says whether the account belongs to an organisation yet.
  */
 @Composable
-fun LoginScreen(auth: AuthRepository, onSignedIn: (hasOrganisation: Boolean) -> Unit = {}) {
+fun LoginScreen(
+    auth: AuthRepository,
+    serverRow: @Composable () -> Unit = {},
+    onSignedIn: (hasOrganisation: Boolean) -> Unit = {},
+) {
     val scope = rememberCoroutineScope()
     val browser = rememberOidcBrowser()
     var email by remember { mutableStateOf(auth.account?.email ?: "") }
@@ -98,6 +102,7 @@ fun LoginScreen(auth: AuthRepository, onSignedIn: (hasOrganisation: Boolean) -> 
             "Sign in to your organisation on My Simple ISO. You enter your password on the sign-in page, not in this app.",
             style = MaterialTheme.typography.bodyLarge,
         )
+        serverRow()
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },

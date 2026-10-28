@@ -88,7 +88,7 @@ fun AppShell(container: AppContainer, repos: Repositories) {
                     Column(modifier.verticalScroll(rememberScrollState())) {
                         // Signed in to an organisation: it opens (a new workspace). Without one, the
                         // screen says what to do next.
-                        LoginScreen(container.auth)
+                        LoginScreen(container.auth, serverRow = { ServerAddressRow(container) })
                     }
                 }
             }

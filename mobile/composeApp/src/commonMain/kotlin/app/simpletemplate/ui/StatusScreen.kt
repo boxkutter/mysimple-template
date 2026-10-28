@@ -51,7 +51,6 @@ import kotlin.time.TimeSource
 @Composable
 fun StatusScreen(container: AppContainer, repos: Repositories, onSignIn: () -> Unit) {
     val session = repos.session
-    val baseUrl = container.baseUrl
     val scope = rememberCoroutineScope()
     var status by remember { mutableStateOf("Not checked yet") }
     var details by remember { mutableStateOf("") }
@@ -69,7 +68,7 @@ fun StatusScreen(container: AppContainer, repos: Repositories, onSignIn: () -> U
     suspend fun check() {
         status = "Checking…"
         details = ""
-        val host = baseUrl.substringAfter("://").substringBefore("/").substringBefore(":")
+        val host = container.baseUrl.substringAfter("://").substringBefore("/").substringBefore(":")
         val dns = resolveHost(host).fold(
             onSuccess = { "DNS $host → ${it.joinToString()}" },
             onFailure = { "DNS $host failed: ${it.describe()}" },
@@ -101,7 +100,7 @@ fun StatusScreen(container: AppContainer, repos: Repositories, onSignIn: () -> U
             repos.sync?.let { SyncCard(it) }
             LockCards(repos.settings)
             SectionCard("Connection", Icons.Filled.Refresh, action = "Check" to { scope.launch { check() } }) {
-                LabeledValue("Server", baseUrl)
+                ServerAddressRow(container, onChanged = { scope.launch { check() } })
                 Text(status, style = MaterialTheme.typography.bodyLarge)
                 if (details.isNotBlank()) Text(details, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }

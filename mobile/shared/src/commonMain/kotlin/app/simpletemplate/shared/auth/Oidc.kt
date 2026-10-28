@@ -138,12 +138,20 @@ fun idTokenClaim(idToken: String, name: String): String? {
 }
 
 /** HTTP side of OIDC: discovery, code exchange, refresh. */
-class OidcClient(private val http: HttpClient, val settings: OidcSettings) {
-    private var cached: OidcDiscovery? = null
+class OidcClient(
+    private val http: HttpClient,
+    val settings: OidcSettings,
+    /** The issuer in use: the platform names it at sign-in (`POST /v1/auth/discover`). */
+    private val currentIssuer: () -> String = { settings.issuer },
+) {
+    private var cached: Pair<String, OidcDiscovery>? = null
 
-    suspend fun discovery(): OidcDiscovery = cached ?: http
-        .get(settings.issuer.trimEnd('/') + "/.well-known/openid-configuration")
-        .body<OidcDiscovery>().also { cached = it }
+    suspend fun discovery(): OidcDiscovery {
+        val issuer = currentIssuer()
+        cached?.takeIf { it.first == issuer }?.let { return it.second }
+        return http.get(issuer.trimEnd('/') + "/.well-known/openid-configuration")
+            .body<OidcDiscovery>().also { cached = issuer to it }
+    }
 
     suspend fun exchange(code: String, pending: PendingSignIn): OidcTokens = token(
         Parameters.build {

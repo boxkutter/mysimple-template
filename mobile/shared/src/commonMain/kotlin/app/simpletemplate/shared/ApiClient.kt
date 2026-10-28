@@ -54,6 +54,8 @@ class ApiClient(
     engine: HttpClientEngine = platformHttpEngine(),
     private val sessions: SessionHolder? = null,
     private val oidc: OidcClient? = null,
+    /** The base URL now, when it can change while the app runs (a development server). */
+    private val currentBaseUrl: () -> String = { baseUrl },
 ) {
     internal val json = Json { ignoreUnknownKeys = true; explicitNulls = false }
 
@@ -87,7 +89,7 @@ class ApiClient(
             }
             install(organisationHeader)
         }
-        defaultRequest { url(baseUrl.trimEnd('/') + "/") }
+        defaultRequest { url(currentBaseUrl().trimEnd('/') + "/") }
     }
 
     suspend fun health(): HealthStatus = http.get("health").body()

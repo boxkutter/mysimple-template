@@ -26,7 +26,8 @@ import kotlinx.serialization.json.Json
 
 /** Wires the shared services together; one per process. The platform supplies the storage. */
 class AppContainer(
-    val baseUrl: String,
+    /** The platform's address; editable in debug builds (see [ServerAddress]). */
+    val server: ServerAddress,
     val oidcSettings: OidcSettings,
     sessionStore: SessionStore,
     openStore: () -> LocalStore,
@@ -41,9 +42,27 @@ class AppContainer(
     val oidc = OidcClient(
         HttpClient(platformHttpEngine()) { install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) } },
         oidcSettings,
+        currentIssuer = { server.issuer.value },
     )
-    val api = ApiClient(baseUrl, sessions = sessions, oidc = oidc)
-    val auth = AuthRepository(api, sessions, oidc)
+    val api = ApiClient(server.baseUrl.value, sessions = sessions, oidc = oidc, currentBaseUrl = { server.baseUrl.value })
+    /** The API's address now. */
+    val baseUrl: String get() = server.baseUrl.value
+    val auth = AuthRepository(api, sessions, oidc, onIssuer = server::issuerFound)
+
+    /**
+     * Moves to the platform at [input] (debug builds): checks that it answers, then, when an
+     * account is signed in, asks it which sign-in server it uses so refreshes go there.
+     * The address is kept only when the platform answered.
+     */
+    suspend fun changeServer(input: String): HealthStatus {
+        val url = normaliseServerAddress(input) ?: throw IllegalArgumentException("Enter an address such as 192.168.1.10:8081")
+        val health = ApiClient(url, platformHttpEngine()).health()
+        server.change(url)
+        sessions.account?.takeUnless { it.isLocal }?.let { account ->
+            runCatching { api.discover(account.email) }.getOrNull()?.let { server.issuerFound(it.issuer) }
+        }
+        return health
+    }
 
     /** Uploads to pre-signed storage URLs: no platform credentials or headers. */
     private val storageHttp by lazy { HttpClient(platformHttpEngine()) }

@@ -14,6 +14,8 @@ class AuthRepository(
     private val api: ApiClient,
     private val sessions: SessionHolder,
     private val oidc: OidcClient,
+    /** The sign-in server the platform named; it may differ from the build's (a moved dev server). */
+    private val onIssuer: (String) -> Unit = {},
 ) {
     val session: StateFlow<Session?> = sessions.session
 
@@ -35,7 +37,9 @@ class AuthRepository(
      */
     suspend fun signIn(email: String, browser: OidcBrowser): SignInResult {
         val hint = email.trim()
-        val zitadelOrg = api.discover(hint).organisationId
+        val found = api.discover(hint)
+        onIssuer(found.issuer)
+        val zitadelOrg = found.organisationId
         val tokens = authorize(browser, zitadelOrg, hint, reauthenticate = false)
         val me = api.me(tokens.accessToken)
         val workspaces = me.workspaces()

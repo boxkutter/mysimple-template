@@ -2,6 +2,25 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.2.1 — the server address in the app; what the platform added in M10 to M17
+
+**The server address can be changed in debug builds**, so a phone follows a development server whose LAN address changes without reinstalling:
+
+- New: `shared/ServerAddress.kt` (the address and the sign-in server, `normaliseServerAddress`), `androidApp/.../ServerAddressPreferences.kt` (kept in the app's preferences), `ui/ServerAddressRow.kt` (the address with "Change", on the sign-in screen and in Status → Connection).
+- The address is kept only when a platform answers there (`GET /health`). The sign-in server is never typed: `POST /v1/auth/discover` names the platform's issuer, and the app uses it (`AuthRepository(onIssuer)`, `OidcClient(currentIssuer)`); `ApiClient(currentBaseUrl)` reads the address at every call.
+- Release builds keep the build's address (`ServerAddress.editable` is `BuildConfig.DEBUG`).
+- Debug builds now allow plain HTTP (the generated network config), for the platform's development stack on a LAN address: `iso/deploy/lan.sh` serves the API on `http://<address>:8081` and the sign-in on `:8082`. Release builds stay HTTPS only.
+- To take it: copy the three files and the test, `AppContainer(server = ServerAddress(...))` in place of `baseUrl`, the two constructor parameters above, and the `serverRow` slot of `LoginScreen`/`WelcomeScreen`.
+
+**What the platform added since 0.1.3 that an app should know** (nothing breaks if it ignores it; contract sections in `iso/docs/specification/platform-contract.md`):
+
+- **Synchronised entities.** The platform now syncs 47 entity names (`server/app/modules/sync/policies.py`): the 37 the Mobile Auditor reserved, `plan_distribution`, `file_object` (pulled only), the risk registers (`risk_criteria`, `risk`, `risk_assessment`, `risk_treatment`, `hazard`, `ohs_incident`, `environmental_aspect`) and `audit_type` (M17, read only). A new app's names must not collide with any of them.
+- **M10, criteria packages** (contract §5.4): format 2, the organisation's own requirement set, and an audit's pinned content version (`?content_version=N`). Only an app that uses criteria needs it; see My Simple Auditor's `PlatformCriteria`.
+- **M11, the public library** (contract §5.5, ADR 0028): `GET /v1/library/packs` without an account; paid packs are released on a Google Play purchase the platform verifies (`POST …/{id}/purchases`). AI in an organisation workspace goes through `/v1/ai/draft`.
+- **M12:** `risk_treatment` gains `completed_on` (optional).
+- **M15:** issuing an audit raises a nonconformity on the platform for each finding whose class key ends in `_NC`; an app that lets organisations define finding classes keeps to that convention. `GET /v1/orgs/{org_id}/trace/{type}/{id}` gives a requirement's chain (what implements it, its basis, its audits) for a reader in an app.
+- **M17, the audit programme** (contract §7.14): the web is a second writer of records an app also edits (the report, its texts, findings, approvals and an audit's status), so an app takes the server's versions as from another device and never assumes it is the only writer; a record may be archived on the platform and is then read only on the phone, or removed from it.
+
 ## 0.2.0 — sign-in and sync against the platform (platform M1, M8, M9)
 
 The platform connection, ported from My Simple Auditor and written generically: an app made from the template signs in and syncs against today's platform. `docs/platform.md` describes it.
