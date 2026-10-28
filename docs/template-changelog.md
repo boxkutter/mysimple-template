@@ -2,6 +2,12 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.2.4 — platform notes: an audit's frame edited in the web, read acknowledgement (documentation only)
+
+- **An audit's frame may change in the web before its work starts** (platform ADR 0047, contract §7.14): title, dates, mode, type, criteria, processes and site slots. Records such as `assessment_unit` and `assessment_site` may arrive changed or as tombstones. An app applies them as from another device; one that copies dates or slots into its own plan should refresh them.
+- **Distributed reports can be confirmed as read** (platform ADR 0046): `report_distribution` gains server-owned `acknowledged_at`, `acknowledged_by`, `acknowledged_by_user_id`, `reminded_at` and `share_link_id`. An app receives them and never sends them.
+- Nothing else to do in an app.
+
 ## 0.2.3 — platform notes: contacts edited in the web, form hints (documentation only)
 
 - **Contacts are a register in the web** (`organisation/contacts`, platform ADR 0045): the web is now another writer of `contact`. An app that syncs contacts takes the server's versions as from another device, as for any record.
