@@ -13,7 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import android.content.Intent
 import app.simpletemplate.ui.App
+import app.simpletemplate.ui.auth.OidcRedirects
 
 class MainActivity : ComponentActivity() {
     // Bumped when local network access is granted, so the server check runs again.
@@ -36,6 +38,18 @@ class MainActivity : ComponentActivity() {
         ) {
             requestLocalNetwork.launch(Manifest.permission.ACCESS_LOCAL_NETWORK)
         }
+        deliverSignIn(intent)
         setContent { key(networkGeneration) { App((application as SimpleTemplateApplication).container) } }
+    }
+
+    // The sign-in redirect arrives while the app is running (singleTask).
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        deliverSignIn(intent)
+    }
+
+    private fun deliverSignIn(intent: Intent?) {
+        val data = intent?.data ?: return
+        if (data.scheme == BuildConfig.OIDC_SCHEME) OidcRedirects.deliver(data.toString())
     }
 }

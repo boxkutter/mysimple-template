@@ -31,7 +31,7 @@ fun App(container: AppContainer) {
         Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             val current = session
             if (current == null) {
-                Box(Modifier.safeDrawingPadding()) { WelcomeScreen(container.auth, container.deviceName) }
+                Box(Modifier.safeDrawingPadding()) { WelcomeScreen(container.auth) }
             } else {
                 // A different user or organisation gets fresh repositories and navigation.
                 key(current.userId, current.organisationId) {

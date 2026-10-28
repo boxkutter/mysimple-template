@@ -23,8 +23,8 @@ The template's **Items** are a complete example of every layer. To add the app's
 
 1. **Table** – `shared/src/commonMain/sqldelight/.../db/<Thing>.sq`: the synced-table columns (`id`, `owner_org_id`, `version`, `created_at`, `updated_at`, `deleted_at`) plus the record's own, and the named queries.
 2. **Domain type** – `shared/.../domain/<Things>.kt`: plain data classes and enums. No database or UI types.
-3. **Sync name** – add an `EntityType` in `Outbox.kt` (name it as in [platform.md §5](platform.md#5-sync)).
-4. **Repository** – `shared/.../data/<Thing>Repository.kt`: `observe…()` flows for screens, `suspend` reads and writes. Every write runs in `db.transaction { … }` and queues its outbox operation inside it. Add it to `Repositories` in `AppContainer.kt`.
+3. **Sync name** – add an `EntityType` in `Outbox.kt` with its `SyncEntity` (wire name, local table, who owns it; name it as in [platform.md, "Sync"](platform.md#sync-contract-5)). The table's columns are the platform's names, so the sync engine writes pulled records into it. Register the entity on the platform too: until then the server rejects it.
+4. **Repository** – `shared/.../data/<Thing>Repository.kt`: `observe…()` flows for screens, `suspend` reads and writes. Every write runs in `db.transaction { … }` and queues its outbox operation inside it, for the workspace's `Tenant`. Add it to `Repositories` in `AppContainer.kt`.
 5. **Tests** – `shared/src/commonTest/.../<Thing>RepositoryTest.kt`, against the in-memory database (`testStore()`).
 6. **Screens** – `composeApp/.../ui/<things>/`: a list screen (`AppScreen`, `PrimaryActionButton`, `EmptyState`) and a form (`FormScreen`, `FormField`).
 7. **Routes** – add them in `AppShell.kt`, and a bottom tab if it is a main area (keep Status last).

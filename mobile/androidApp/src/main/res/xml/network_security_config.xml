@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- HTTPS only, with the system's certificate authorities. Debug builds replace this file with a
+     generated one (build.gradle.kts, devNetworkConfig) that can also trust the platform's
+     development stack's own CA. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

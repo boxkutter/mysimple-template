@@ -37,11 +37,11 @@ import org.jetbrains.compose.resources.painterResource
  * everything stays on this phone. Signing in to a platform account is optional.
  */
 @Composable
-fun WelcomeScreen(auth: AuthRepository, deviceName: String?) {
+fun WelcomeScreen(auth: AuthRepository) {
     var signIn by remember { mutableStateOf(false) }
     if (signIn) {
         Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding()) {
-            LoginScreen(auth, deviceName)
+            LoginScreen(auth)
             TextButton(onClick = { signIn = false }, modifier = Modifier.padding(horizontal = 16.dp)) { Text("Back: start without an account") }
         }
         return

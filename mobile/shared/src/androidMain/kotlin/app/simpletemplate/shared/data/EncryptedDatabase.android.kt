@@ -28,7 +28,7 @@ object EncryptedDatabase {
             name = DB_NAME,
             factory = SupportOpenHelperFactory(passphrase),
         )
-        return LocalStore(SimpleTemplateDatabase(driver))
+        return LocalStore(SimpleTemplateDatabase(driver), driver)
     }
 
     private fun databaseKey(context: Context): ByteArray {

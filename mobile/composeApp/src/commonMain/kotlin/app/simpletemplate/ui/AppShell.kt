@@ -15,6 +15,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -58,6 +59,9 @@ fun AppShell(container: AppContainer, repos: Repositories) {
     val destination = entry?.destination
     val onTab = tabs.any { tab -> destination?.hasRoute(tab.routeClass) == true }
 
+    // An organisation workspace keeps itself in step with the platform while it is open.
+    LaunchedEffect(repos) { repos.sync?.start(this) }
+
     // Screens have their own Scaffold; the insets this one handles are consumed so they are not
     // applied twice.
     Scaffold(
@@ -81,7 +85,11 @@ fun AppShell(container: AppContainer, repos: Repositories) {
             }
             composable<SignInRoute> {
                 AppScreen(title = "Sign in", onBack = { nav.popBackStack() }) { modifier ->
-                    Column(modifier.verticalScroll(rememberScrollState())) { LoginScreen(container.auth, container.deviceName) }
+                    Column(modifier.verticalScroll(rememberScrollState())) {
+                        // Signed in to an organisation: it opens (a new workspace). Without one, the
+                        // screen says what to do next.
+                        LoginScreen(container.auth)
+                    }
                 }
             }
         }
