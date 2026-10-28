@@ -18,12 +18,16 @@ class FixedClock(var now: Instant = Instant.parse("2026-10-05T09:00:00Z")) : Clo
     override fun now(): Instant = now
 }
 
-fun testStore(clock: Clock = FixedClock()) = LocalStore(
-    db = SimpleTemplateDatabase(inMemoryDriver()),
-    clock = clock,
-    newId = Uuid::generateV7,
-    dispatcher = Dispatchers.Unconfined,
-)
+fun testStore(clock: Clock = FixedClock()): LocalStore {
+    val driver = inMemoryDriver()
+    return LocalStore(
+        db = SimpleTemplateDatabase(driver),
+        driver = driver,
+        clock = clock,
+        newId = Uuid::generateV7,
+        dispatcher = Dispatchers.Unconfined,
+    )
+}
 
 fun LocalStore.outboxOps(): List<Outbox_operation> = db.syncQueries.pending(1000).executeAsList()
 

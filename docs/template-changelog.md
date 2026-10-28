@@ -2,6 +2,29 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.2.0 — sign-in and sync against the platform (platform M1, M8, M9)
+
+The platform connection, ported from My Simple Auditor and written generically: an app made from the template signs in and syncs against today's platform. `docs/platform.md` describes it.
+
+- **Sign-in** (contract §2): OIDC authorization code + PKCE in the system browser (Custom Tabs, no Play services), discovery by email (`POST /v1/auth/discover`), refresh at Zitadel (the account ends only when the refresh is refused, never offline). New: `shared/.../auth/Oidc.kt`, `Sha256.kt`, `PlatformNetwork.kt`, `androidMain/.../auth/SecureRandom.android.kt`, `composeApp/.../ui/auth/OidcRedirects.kt`, `OidcBrowser.android.kt`. Rewritten: `AuthApi.kt` (discover, memberships, `POST /v1/orgs`), `ApiClient.kt` (`X-Org-Id` on every call, no password endpoints), `auth/AuthRepository.kt`, `auth/Session.kt` (workspaces, the account kept apart, ID token), `EncryptedSessionStore` (an account file), `LoginScreen.kt` (email only; the password is typed on the sign-in page).
+- **One redirect scheme per app**: `eu.mysimple.simpletemplate:/oidc/callback`, set as `oidcScheme` in `androidApp/build.gradle.kts` (manifest intent filter, `BuildConfig.OIDC_SCHEME`), renamed by `new-app.sh` to `eu.mysimple.<slug>`. `MainActivity` is `singleTask` and hands the redirect to `OidcRedirects`.
+- **Workspaces** (contract §3.2): the local workspace and the account's organisations, switched on the Status page (`ui/WorkspacesCard.kt`); a wiped organisation leaves the switcher.
+- **Attaching the local workspace** (`sync/WorkspaceAttach.kt`): adopt (a new organisation takes the local id) or remap (into an existing one), rewriting ids and queued operations in one transaction, with `id_remap`. Flagged for personal data: everything in the local workspace goes to the organisation, and the confirmation says so.
+- **Sync** (contract §5): `sync/SyncApi.kt`, `SyncEngine.kt`, `RecordWriter.kt`, `WorkspacePurge.kt`, `WorkspaceSync.kt`, `ui/SyncCard.kt`. `POST /v1/sync` with `X-Org-Id` and `X-Device-Id`, every result status handled, a cursor per organisation, conflicts kept for the user, wipe and `POST /v1/sync/wipe-ack`. **Table-driven**: an app registers its entities (`EntityType` now carries a `SyncEntity`: wire name, local table, ownership, optional platform columns, local-only columns, file columns), and pulled records are written into the tables generically.
+- **Attachments** (contract §5.2): `sync/Attachments.kt`, a generic upload (parts, complete, SHA-256) and download for any entity that declares `FileColumns`; `DirectoryFileStorage` on Android.
+- **Outbox**: `outbox_operation` gains `owner_org_id` (the workspace) and `rejected`; `sync_conflict`, `id_remap` and `file_transfer` are new (`Sync.sq`). `Outbox.created/updated/deleted` take the `Tenant` first. `LocalStore` takes the SQL driver.
+- **Build settings**: `platform.baseUrl`, `platform.oidcIssuer`, `platform.devCa`, `simpletemplate.oidcClientId` (Gradle property or `local.properties`); debug builds default to the platform's development stack and can trust its CA (a generated network security config); release builds have no defaults. `mobile/tools/dev-device.sh` points an emulator at the development stack. Version 0.2.0.
+- **The example `item` is not a platform entity**: the server rejects it. It stays as the example to copy; an app registers its own entities on the platform (contract §7).
+- Left out (audit-specific in My Simple Auditor): moving one personal audit into an organisation (`AuditMove`, contract §3.1), criteria packages and versions, trail gaps, assignments, generated platform columns (the generator idea is in `docs/platform.md`), report fixtures, Google Play Billing.
+
+To take it, in an app made from 0.1.x:
+
+1. Copy the new files above (with the app's names: package, class prefix, slug). Replace `AuthApi.kt`, `ApiClient.kt`, `auth/`, `LoginScreen.kt`, `StatusScreen.kt`'s account card (now `WorkspacesCard` and `SyncCard`), and `AppContainer.kt` (it takes `OidcSettings`, `appVersion` and `files`, builds `WorkspaceSync` per organisation workspace, and exposes `attach`). Add `repos.sync?.start(this)` in a `LaunchedEffect(repos)` in `AppShell.kt`.
+2. Turn each `EntityType` into `ENTITY(SyncEntity("wire_name", …))` and pass the `Tenant` to the outbox calls. Every synced table's columns must be the platform's names.
+3. `Sync.sq`: take the new version. Before the app's first release, edit it in place; after it, add a migration that adds `owner_org_id TEXT NOT NULL DEFAULT ''` (filled from each payload's `owner_org_id`, or the local workspace's id) and `rejected INTEGER NOT NULL DEFAULT 0` to `outbox_operation`, and creates the three new tables.
+4. `androidApp`: take `build.gradle.kts` (set `oidcScheme` to `eu.mysimple.<slug>`), the manifest's `singleTask`, intent filter and `networkSecurityConfig`, `res/xml/network_security_config.xml`, `MainActivity` and the `Application`. Set `platform.*` and `<slug>.oidcClientId` in `local.properties`.
+5. On the platform: register the app's native client in `iso/zitadel/bootstrap.py` and its entities with a `SyncPolicy` each (`docs/platform.md`, "What a new app needs").
+
 ## 0.1.5 — the risk engine with the framework's criteria (platform M16)
 
 - **New in `RiskScoring.kt`:** the organisation's risk criteria (platform ADR 0031) and estimates (ADR 0033), ported from `iso/server/app/modules/risk_framework/scoring.py`. Everything is additive: `score` is unchanged, and an app that ignores the rest keeps working; the server's level stays authoritative.

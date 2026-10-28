@@ -100,7 +100,7 @@ cd mobile
 ./run-on-phone.sh                       # build, install and launch on a phone (wireless debugging)
 \`\`\`
 
-The server URL is a build setting: \`-Pplatform.baseUrl=https://…\` (default: the platform server).
+The platform's addresses and this app's sign-in client are build settings (\`mobile/local.properties\` or \`-P…\`): see [docs/platform.md](docs/platform.md#build-settings).
 README
 printf '%s\n' "$template_commit" > "$dest/.template-version"
 
@@ -108,4 +108,5 @@ left=$(grep -rIl --exclude-dir=.git -e simpletemplate -e SimpleTemplate -e 'Simp
 echo "Created $name in $dest"
 echo "  package $package · slug $slug · classes ${prefix}… · from template $template_commit"
 [[ -z $left ]] || { echo "Still naming the template (check by hand):"; echo "$left" | sed 's/^/  /'; }
-echo "Next: docs/new-app.md (branding, the app's own records, git repository)."
+echo "  sign-in redirect eu.mysimple.$slug:/oidc/callback (register it on the platform: docs/platform.md, \"What a new app needs\")"
+echo "Next: docs/new-app.md (branding, the app's own records and their names on the platform, git repository)."

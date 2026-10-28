@@ -14,6 +14,8 @@ import kotlin.uuid.Uuid
  */
 class LocalStore(
     val db: SimpleTemplateDatabase,
+    /** The raw driver, for sync's generic record writes (tables named like the wire entities). */
+    internal val driver: SqlDriver,
     internal val clock: Clock = Clock.System,
     internal val newId: () -> Uuid = Uuid::generateV7,
     internal val dispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -24,7 +26,7 @@ class LocalStore(
 
     companion object {
         fun create(driver: SqlDriver, clock: Clock = Clock.System): LocalStore =
-            LocalStore(SimpleTemplateDatabase(driver), clock)
+            LocalStore(SimpleTemplateDatabase(driver), driver, clock)
     }
 }
 

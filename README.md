@@ -7,9 +7,9 @@ It is the Mobile Auditor's foundation with the auditing taken out: the platform 
 | | |
 |---|---|
 | **Reference app** | Mobile Auditor (`boxkutter/mobileauditor`), derived at commit `f384bf9` |
-| **Platform server** | `https://mobileauditor.h03.eu` (the My Simple ISO platform, `boxkutter/iso`; build setting `-Pplatform.baseUrl`) |
+| **Platform server** | The My Simple ISO platform (`boxkutter/iso`); build settings `platform.baseUrl`, `platform.oidcIssuer` and the app's OIDC client ([platform.md](docs/platform.md#build-settings)) |
 | **Stack** | Kotlin Multiplatform · Compose Multiplatform · SQLDelight + SQLCipher · Ktor · Android 10+ (iOS later) |
-| **Version** | 0.1.2 ([changelog](docs/template-changelog.md)) |
+| **Version** | 0.2.0 ([changelog](docs/template-changelog.md)) |
 
 ## Start a new app
 
@@ -23,13 +23,15 @@ Then follow [docs/new-app.md](docs/new-app.md): branding, the app's own records 
 
 **Platform connection** (works exactly like the Mobile Auditor)
 - Starts without an account: a local workspace on the phone, nothing sent anywhere.
-- Optional sign-in with a platform account: access and refresh tokens, automatic refresh, sign-out; offline never signs the user out.
-- Status page: the account, the app lock, a connection check (DNS, server health, signed-in user) and the local database.
+- Optional sign-in with a platform account: OIDC with PKCE in the system browser, discovery by email, one redirect scheme per app, refresh at Zitadel, sign-out; offline never signs the user out.
+- Workspaces: the local workspace and the account's organisations; the local workspace can be made an organisation's (adopt or remap).
+- Sync with the platform: outbox sender, change feed applied to the app's registered tables, conflicts, wipe; file attachments.
+- Status page: the account and workspaces, the sync, the app lock, a connection check (DNS, server health, signed-in user) and the local database.
 - AI drafting call (`POST /v1/ai/draft`), only with an account.
 
 **Local-first data**
 - SQLDelight database encrypted with SQLCipher; keys in the Android Keystore; no backups of secrets.
-- Sync outbox: every write queues its operation in the same transaction, ready for the server's sync.
+- Sync outbox: every write queues its operation in the same transaction; the workspace's sync sends it.
 - Per-user settings on the device.
 
 **Security**
@@ -50,6 +52,7 @@ mobile/                 Kotlin Multiplatform project
   composeApp/           Compose Multiplatform UI
   androidApp/           Android shell: application, activity, manifest, icon, launch screen
   run-on-phone.sh       build, install and launch on a phone over wireless debugging
+  tools/dev-device.sh   point an emulator at the platform's development stack
 scripts/new-app.sh      create a new app from the template
 branding/               placeholder mark and icon (replace per app)
 docs/                   platform contract, conventions, new-app checklist, keeping current
@@ -58,7 +61,7 @@ licenses/               third-party licences (the bundled font)
 
 ## Develop the template itself
 
-Requires the Android SDK (`sdk.dir` in `mobile/local.properties`); Gradle downloads a JDK if needed.
+Requires the Android SDK (`sdk.dir` in `mobile/local.properties`); Gradle downloads a JDK if needed. The platform settings go in the same file ([platform.md](docs/platform.md#build-settings)).
 
 ```bash
 cd mobile

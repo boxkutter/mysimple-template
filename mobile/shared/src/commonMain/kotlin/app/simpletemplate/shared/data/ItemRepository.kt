@@ -38,10 +38,10 @@ class ItemRepository(private val store: LocalStore, private val tenant: Tenant) 
                 db.itemQueries.insert(
                     item.id.toString(), tenant.orgId.toString(), item.title, item.notes, item.status.name, now, now,
                 )
-                outbox.created(EntityType.ITEM, item.id, item.fields(tenant))
+                outbox.created(tenant, EntityType.ITEM, item.id, item.fields(tenant))
             } else {
                 db.itemQueries.update(item.title, item.notes, item.status.name, now, item.id.toString())
-                outbox.updated(EntityType.ITEM, item.id, existing.version, existing.toItem().fields(tenant), item.fields(tenant))
+                outbox.updated(tenant, EntityType.ITEM, item.id, existing.version, existing.toItem().fields(tenant), item.fields(tenant))
             }
         }
     }
@@ -51,7 +51,7 @@ class ItemRepository(private val store: LocalStore, private val tenant: Tenant) 
         db.transaction {
             val existing = db.itemQueries.byId(id.toString()).executeAsOneOrNull() ?: return@transaction
             db.itemQueries.softDelete(store.nowMillis(), id.toString())
-            outbox.deleted(EntityType.ITEM, id, existing.version)
+            outbox.deleted(tenant, EntityType.ITEM, id, existing.version)
         }
     }
 }

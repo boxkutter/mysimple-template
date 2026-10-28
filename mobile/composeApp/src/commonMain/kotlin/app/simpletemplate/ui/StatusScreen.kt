@@ -10,12 +10,10 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,7 +44,8 @@ import kotlinx.coroutines.withContext
 import kotlin.time.TimeSource
 
 /**
- * The account, the app lock, and proof of the phone → proxy → server path and the local database.
+ * The account and workspaces, the workspace's sync, the app lock, and proof of the phone → proxy →
+ * server path and the local database.
  * Add the app's own settings as further cards.
  */
 @Composable
@@ -78,13 +77,13 @@ fun StatusScreen(container: AppContainer, repos: Repositories, onSignIn: () -> U
         val started = TimeSource.Monotonic.markNow()
         status = try {
             val health = container.api.health()
-            if (session.isLocal) {
-                "Server ${health.status} · v${health.version} · ${health.environment}"
-            } else {
-                // An authenticated call: proves the token (and its refresh) works.
-                val me = container.api.me()
-                "Server ${health.status} · v${health.version} · ${health.environment} · signed in as ${me.user.email}"
-            }
+            // An authenticated call proves the token (and its refresh) works, and picks up
+            // organisations joined since (an invitation accepted on the web).
+            val signedIn = if (container.auth.account != null) {
+                container.auth.refreshWorkspaces()
+                " · signed in as ${container.auth.account?.email}"
+            } else ""
+            "Platform ${health.status} · v${health.version} · ${health.environment}$signedIn"
         } catch (e: Exception) {
             details = e.describe()
             "Server unreachable"
@@ -98,20 +97,8 @@ fun StatusScreen(container: AppContainer, repos: Repositories, onSignIn: () -> U
 
     AppScreen(title = "Status") { modifier ->
         Column(modifier.verticalScroll(rememberScrollState()).padding(vertical = 6.dp)) {
-            SectionCard(if (session.isLocal) "You" else "Signed in", Icons.Filled.Person) {
-                LabeledValue("Name", session.name)
-                LabeledValue("Organisation", session.organisationName)
-                if (session.isLocal) {
-                    Text(
-                        "No account: your information is on this phone only. An account adds backup, several devices and AI drafting.",
-                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    OutlinedButton(onClick = onSignIn) { Text("Sign in to an account") }
-                } else {
-                    LabeledValue("Account", session.email)
-                    OutlinedButton(onClick = { scope.launch { container.auth.signOut() } }) { Text("Sign out") }
-                }
-            }
+            WorkspacesCard(container, session, onSignIn)
+            repos.sync?.let { SyncCard(it) }
             LockCards(repos.settings)
             SectionCard("Connection", Icons.Filled.Refresh, action = "Check" to { scope.launch { check() } }) {
                 LabeledValue("Server", baseUrl)

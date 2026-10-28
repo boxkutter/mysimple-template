@@ -1,4 +1,7 @@
--- Operations waiting to be sent to the server, in the order they were made (docs/platform.md, "Sync").
+-- Sync with the platform (docs/platform.md, "Sync"; platform contract §5). Generic: no table
+-- here names an app's entity.
+
+-- Operations waiting to be sent to POST /v1/sync, in the order they were made.
 CREATE TABLE outbox_operation (
     seq INTEGER PRIMARY KEY AUTOINCREMENT,
     -- Idempotency key: a resent operation is recognised by the server
@@ -13,36 +16,139 @@ CREATE TABLE outbox_operation (
     base_version INTEGER NOT NULL,
     created_at INTEGER NOT NULL,
     attempts INTEGER NOT NULL DEFAULT 0,
-    last_error TEXT
+    last_error TEXT,
+    -- The workspace (organisation) the change belongs to. Only an organisation's own operations
+    -- are ever sent to it; the local workspace's are never sent (contract §1) until it is
+    -- attached to an organisation (WorkspaceAttach).
+    owner_org_id TEXT NOT NULL,
+    -- 1: the platform refused it (REJECTED, INVALID_TRANSITION, DUPLICATE_ID) or this app knows
+    -- it would: kept with its reason in last_error, never resent.
+    rejected INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE INDEX outbox_operation_entity ON outbox_operation(entity_type, entity_id);
+CREATE INDEX outbox_operation_owner ON outbox_operation(owner_org_id, rejected);
 
--- Server-issued position in the change feed, per sync scope.
+-- Server-issued position in the change feed, one per organisation (scope = its id). Scopes
+-- starting with '_' are this device's own: '_device' (X-Device-Id), '_schema'.
 CREATE TABLE sync_cursor (
     scope TEXT NOT NULL PRIMARY KEY,
     cursor_token TEXT NOT NULL,
     last_synced_at INTEGER NOT NULL
 );
 
+-- A conflict the platform returned (CONFLICT, EDIT_WINS): both versions, until the user decides.
+CREATE TABLE sync_conflict (
+    op_id TEXT NOT NULL PRIMARY KEY,
+    owner_org_id TEXT NOT NULL,
+    entity_type TEXT NOT NULL,
+    entity_id TEXT NOT NULL,
+    status TEXT NOT NULL,
+    -- The change made on this phone (the operation's payload) and the platform's record
+    local_payload TEXT NOT NULL,
+    server_record TEXT,
+    server_version INTEGER,
+    created_at INTEGER NOT NULL
+);
+
+-- Local ids rewritten to platform ids when the local workspace was attached to an organisation
+-- (kind: 'organisation' or 'user').
+CREATE TABLE id_remap (
+    kind TEXT NOT NULL,
+    local_id TEXT NOT NULL,
+    platform_id TEXT NOT NULL,
+    remapped_at INTEGER NOT NULL,
+    PRIMARY KEY (kind, local_id)
+);
+
+-- Files this phone uploaded to an organisation (by content; the platform deduplicates by hash).
+CREATE TABLE file_transfer (
+    sha256 TEXT NOT NULL,
+    owner_org_id TEXT NOT NULL,
+    file_object_id TEXT NOT NULL,
+    uploaded_at INTEGER NOT NULL,
+    PRIMARY KEY (sha256, owner_org_id)
+);
+
 enqueue:
-INSERT INTO outbox_operation(op_id, entity_type, entity_id, op_type, payload, base_version, created_at)
-VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO outbox_operation(op_id, entity_type, entity_id, op_type, payload, base_version, created_at, owner_org_id)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 pending:
 SELECT * FROM outbox_operation ORDER BY seq LIMIT :limit;
 
 pendingCount:
-SELECT count(*) FROM outbox_operation;
+SELECT count(*) FROM outbox_operation WHERE rejected = 0;
 
-remove:
-DELETE FROM outbox_operation WHERE op_id IN ?;
+pendingFor:
+SELECT * FROM outbox_operation WHERE rejected = 0 AND owner_org_id = :orgId ORDER BY seq LIMIT :limit;
+
+pendingCountFor:
+SELECT count(*) FROM outbox_operation WHERE rejected = 0 AND owner_org_id = ?;
+
+opsFor:
+SELECT * FROM outbox_operation WHERE owner_org_id = ? ORDER BY seq;
+
+rejectedFor:
+SELECT * FROM outbox_operation WHERE rejected = 1 AND owner_org_id = ? ORDER BY seq;
+
+markRejected:
+UPDATE outbox_operation SET rejected = 1, last_error = :reason WHERE op_id = :opId;
+
+discardRejected:
+DELETE FROM outbox_operation WHERE rejected = 1 AND op_id = ?;
+
+dropOp:
+DELETE FROM outbox_operation WHERE op_id = ?;
+
+dropOpsFor:
+DELETE FROM outbox_operation WHERE entity_type = ? AND entity_id = ?;
+
+setOpOrganisation:
+UPDATE outbox_operation SET owner_org_id = :orgId, payload = :payload WHERE op_id = :opId;
 
 recordFailure:
 UPDATE outbox_operation SET attempts = attempts + 1, last_error = :error WHERE op_id IN :opIds;
 
+purgeOutbox:
+DELETE FROM outbox_operation WHERE owner_org_id = ?;
+
+saveConflict:
+INSERT OR REPLACE INTO sync_conflict(op_id, owner_org_id, entity_type, entity_id, status, local_payload, server_record, server_version, created_at)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+conflictsFor:
+SELECT * FROM sync_conflict WHERE owner_org_id = ? ORDER BY created_at;
+
+removeConflict:
+DELETE FROM sync_conflict WHERE op_id = ?;
+
+purgeConflicts:
+DELETE FROM sync_conflict WHERE owner_org_id = ?;
+
 cursor:
 SELECT * FROM sync_cursor WHERE scope = ?;
 
+allCursors:
+SELECT * FROM sync_cursor;
+
 saveCursor:
 INSERT OR REPLACE INTO sync_cursor(scope, cursor_token, last_synced_at) VALUES (?, ?, ?);
+
+deleteCursor:
+DELETE FROM sync_cursor WHERE scope = ?;
+
+saveRemap:
+INSERT OR REPLACE INTO id_remap(kind, local_id, platform_id, remapped_at) VALUES (?, ?, ?, ?);
+
+remaps:
+SELECT * FROM id_remap;
+
+markUploaded:
+INSERT OR REPLACE INTO file_transfer(sha256, owner_org_id, file_object_id, uploaded_at) VALUES (?, ?, ?, ?);
+
+isUploaded:
+SELECT count(*) FROM file_transfer WHERE sha256 = ? AND owner_org_id = ?;
+
+purgeTransfers:
+DELETE FROM file_transfer WHERE owner_org_id = ?;

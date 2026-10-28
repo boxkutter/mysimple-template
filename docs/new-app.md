@@ -23,8 +23,9 @@ Work through this list in the new app's repository (this file is copied there to
 - [ ] **When the app lock becomes mandatory**: the rule in `App.kt` (the example: once any item is stored).
 - [ ] **Bottom tabs**: the app's main areas in `AppShell.kt`, Status last.
 - [ ] **Permissions**: only those the app needs, each with a comment (`androidApp/src/main/AndroidManifest.xml`).
-- [ ] **Synced entity names**: specific to the app, as described in [platform.md §5](platform.md#5-sync).
-- [ ] **Server needs**: AI drafting tasks, sync tables or reference data are changes in the Mobile Auditor repository ([platform.md §7](platform.md#7-what-a-new-app-needs-from-the-server)).
+- [ ] **Synced entity names**: specific to the app, as described in [platform.md, "Sync"](platform.md#sync-contract-5). The example `item` is not a platform entity.
+- [ ] **Sign-in**: the app's redirect scheme is `eu.mysimple.<slug>` (`oidcScheme` in `androidApp/build.gradle.kts`); register its native client on the platform and set `<slug>.oidcClientId` and the `platform.*` settings in `mobile/local.properties` ([platform.md, "Build settings"](platform.md#build-settings)).
+- [ ] **Server needs**: the native client, the app's entities with a `SyncPolicy` each, AI drafting tasks and reference data are changes in the platform repository, `boxkutter/iso` ([platform.md, "What a new app needs from the server"](platform.md#what-a-new-app-needs-from-the-server)).
 - [ ] **Version**: `versionCode` / `versionName` in `androidApp/build.gradle.kts`.
 - [ ] **Before the first release**: freeze the database schema ([conventions.md, "Database changes"](conventions.md#database-changes)).
 
@@ -36,4 +37,4 @@ cd mobile
 ./run-on-phone.sh
 ```
 
-On the phone: start without an account, add an item (or the app's first record), and check the Status page: *Local database ok*, and the Connection card reaching the server. Then sign in with a platform account and check the Connection card shows *signed in as …*.
+On the phone: start without an account, add an item (or the app's first record), and check the Status page: *Local database ok*, and the Connection card reaching the server. Then sign in with a platform account (the sign-in page opens in the browser) and check the Connection card shows *signed in as …*, the organisation workspaces are listed, and the sync card shows what was sent (the example `item` comes back *Not accepted*: it is not a platform entity).
