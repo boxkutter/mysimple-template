@@ -6,6 +6,7 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.buildJsonObject
 
 /**
  * The risk scoring engine: the fixed set of scoring methods a platform methodology configures
@@ -19,6 +20,11 @@ import kotlinx.serialization.json.booleanOrNull
  *
  * A methodology's `definition` and a rating's input are the platform's JSON (the methodology
  * comes from `GET /v1/orgs/{org_id}/risk/methodologies/published`); integers only.
+ *
+ * Under the framework's risk criteria (ADR 0031, the published methodology's `criteria`), [rate]
+ * scores on the methodology and then on the criteria's core grid: the result's level is the
+ * common one, the methodology's own kept as [Rating.nativeLevel]. An estimate (ADR 0033) stands in
+ * for the likelihood and one category's level when the methodology's `assessment_mode` allows it.
  */
 object RiskScoring {
     val METHODS = listOf(
@@ -30,6 +36,16 @@ object RiskScoring {
     val GRID_METHODS = setOf("MULTIPLY", "MATRIX", "SUM")
     private val USES_LIKELIHOOD = setOf("MULTIPLY", "MATRIX", "SUM", "FMEA_RPN", "FMEA_ACTION_PRIORITY")
 
+    /** The core grid's methods under criteria; how a methodology may be rated (ADR 0033); the
+     *  units of a category's value bands; the sizes a criteria scale may have. */
+    val CRITERIA_METHODS = listOf("MULTIPLY", "MATRIX", "SUM")
+    val ASSESSMENT_MODES = listOf("QUALITATIVE", "QUANTITATIVE", "EITHER")
+    val DEPTHS = listOf("QUICK", "DETAILED")
+    val REDUCTION_POLICIES = listOf("NONE", "AS_FAR_AS_POSSIBLE")
+    val VALUE_UNITS = listOf("GBP_MINOR", "HOURS", "PEOPLE", "KWH")
+    const val MIN_SCALE = 3
+    const val MAX_SCALE = 10
+
     // --- reading JSON the way the server reads it --------------------------------------------
 
     private fun JsonElement?.int(): Int? {
@@ -38,9 +54,33 @@ object RiskScoring {
         return p.content.toIntOrNull()
     }
 
+    /** A whole number that may be large (estimates and value bands are in minor units). */
+    private fun JsonElement?.long(): Long? {
+        val p = this as? JsonPrimitive ?: return null
+        if (p.isString || p.booleanOrNull != null) return null
+        return p.content.toLongOrNull()
+    }
+
     private fun JsonElement?.obj(): JsonObject? = this as? JsonObject
     private fun JsonElement?.str(): String? = (this as? JsonPrimitive)?.takeIf { it.isString }?.content
     private fun JsonElement?.isNone(): Boolean = this == null || this is JsonNull
+
+    /** Python's `x or default`. */
+    private fun JsonElement?.or(default: JsonElement): JsonElement = if (truthy()) this!! else default
+
+    /** Python's `str(x or "").strip()`. */
+    private fun JsonElement?.text(): String = when {
+        !truthy() -> ""
+        this is JsonPrimitive -> content.trim()
+        else -> toString().trim()
+    }
+
+    /** Python's `str(x)` of a JSON key or value. */
+    private fun JsonElement?.key(): String = when (this) {
+        null, JsonNull -> "None"
+        is JsonPrimitive -> content
+        else -> toString()
+    }
 
     /** Python's truthiness, which the server's `x or default` relies on. */
     private fun JsonElement?.truthy(): Boolean = when (this) {
@@ -115,6 +155,9 @@ object RiskScoring {
         val method = definition["method"].str()
         if (method == null || method !in METHODS) invalid("method must be one of ${METHODS.joinToString(", ")}")
         if (method in USES_LIKELIHOOD) scaleLevels(definition["likelihood"], "likelihood")
+        if (definition.textOr("assessment_mode", "QUALITATIVE") !in ASSESSMENT_MODES) {
+            invalid("assessment_mode is one of ${ASSESSMENT_MODES.joinToString(", ")}")
+        }
         val consequenceLevels = scaleLevels(definition["consequence"], "consequence")
         val consequence = consequenceOf(definition)
         if (consequence.textOr("rule", "WORST") !in CONSEQUENCE_RULES) invalid("consequence rule must be one of WORST, AVERAGE_UP")
@@ -177,6 +220,12 @@ object RiskScoring {
         }
         checkLevels(definition["levels"], "levels")
         checkCoverage(definition, "RISK")
+        if (definition.textOr("depth", "DETAILED") !in DEPTHS) invalid("depth is QUICK or DETAILED")
+        if (definition.textOr("reduction_policy", "NONE") !in REDUCTION_POLICIES) invalid("reduction_policy is NONE or AS_FAR_AS_POSSIBLE")
+        val significant = definition["significant_from_rank"]
+        if (!significant.isNone() && (significant.int() == null || significant.int()!! < 1)) {
+            invalid("significant_from_rank is a rank from 1 (or left out)")
+        }
         val opportunity = definition["opportunity"]
         if (!opportunity.isNone()) {
             val o = opportunity.obj() ?: invalid("opportunity must be an object")
@@ -474,16 +523,370 @@ object RiskScoring {
             impacts = impacts,
             intolerableAt = intolerableAt,
             maxTolerableDisruption = mtd,
-            level = RatedLevel(
-                key = level["key"].str()!!,
-                label = level["label"].str()?.takeIf { it.isNotEmpty() } ?: level["key"].str()!!,
-                colour = level["colour"].str(),
-                rank = level["rank"].int()!!,
-                response = level.textOr("response", "TREAT") ?: "TREAT",
-                timeToTreatDays = level["time_to_treat_days"].int(),
-                reviewMonths = level["review_months"].int(),
-            ),
+            level = ratedLevel(level),
         )
+    }
+
+    private fun ratedLevel(level: JsonObject) = RatedLevel(
+        key = level["key"].str()!!,
+        label = level["label"].str()?.takeIf { it.isNotEmpty() } ?: level["key"].str()!!,
+        colour = level["colour"].str(),
+        rank = level["rank"].int()!!,
+        response = level.textOr("response", "TREAT") ?: "TREAT",
+        timeToTreatDays = level["time_to_treat_days"].int(),
+        reviewMonths = level["review_months"].int(),
+    )
+
+    // --- risk criteria in the framework, and methodologies mapped onto them (ADR 0031) --------
+    //
+    // **Criteria** (a framework version's `criteria`, and the published methodology's) hold the
+    // organisation's common scales: `likelihood` and `consequence` (3 to 10 levels each, numbered
+    // from 1), the consequence `categories` (a descriptor per level, `enabled_by`: null or a
+    // capability, and optionally `unit` with `value_from` bands), the core grid (`method`
+    // MULTIPLY, MATRIX or SUM, `matrix`) and the core `levels`. A methodology under criteria
+    // carries `mapping`: `likelihood` and `consequence` ({"<native level>": common level}; absent
+    // means identity) and, for threat × vulnerability, `likelihood_from`
+    // ({"factors": [a, b], "table": {"<a>-<b>": common level}}).
+
+    /** The core grid of a set of criteria as a definition the methods above can score. */
+    fun criteriaDefinition(criteriaElement: JsonElement): JsonObject {
+        val criteria = criteriaElement.obj() ?: JsonObject(emptyMap())
+        val consequence = criteria["consequence"].obj() ?: JsonObject(emptyMap())
+        val method = criteria["method"].or(JsonPrimitive("MULTIPLY"))
+        return buildJsonObject {
+            put("method", method)
+            put("likelihood", criteria["likelihood"] ?: JsonNull)
+            put(
+                "consequence",
+                buildJsonObject {
+                    put("label", consequence["label"].or(JsonPrimitive("Consequence")))
+                    put("levels", consequence["levels"] ?: JsonNull)
+                    put("categories", consequence["categories"].or(JsonArray(emptyList())))
+                    put("rule", consequence["rule"].or(JsonPrimitive("WORST")))
+                },
+            )
+            put("factors", JsonArray(emptyList()))
+            put("levels", criteria["levels"] ?: JsonNull)
+            if (method == JsonPrimitive("MATRIX")) put("matrix", criteria["matrix"].or(JsonObject(emptyMap())))
+        }
+    }
+
+    private fun checkSize(scale: JsonElement?, name: String): List<Int> {
+        val levels = scaleLevels(scale, name)
+        if (levels.size !in MIN_SCALE..MAX_SCALE) {
+            throw ScoringException("SCALE_SIZE", "$name needs from $MIN_SCALE to $MAX_SCALE levels, not ${levels.size}")
+        }
+        if (levels.sorted() != (1..levels.size).toList()) throw ScoringException("SCALE_SIZE", "$name levels are numbered from 1 without gaps")
+        return levels
+    }
+
+    private fun items(element: JsonElement?): List<JsonElement> =
+        if (element.truthy()) (element as? JsonArray).orEmpty() else emptyList()
+
+    /** Check a set of criteria; [complete] (at approval) also needs every likelihood level
+     *  described and every category that is always on, or switched on by [enabled] (capability
+     *  keys), to describe every level. Codes: INVALID_DEFINITION, SCALE_SIZE, INVALID_BANDS. */
+    fun validateCriteria(criteriaElement: JsonElement, complete: Boolean = false, enabled: Collection<String> = emptyList()) {
+        val criteria = criteriaElement.obj() ?: invalid("the criteria are an object")
+        if (criteria.textOr("method", "MULTIPLY") !in CRITERIA_METHODS) {
+            invalid("the core grid's method is one of ${CRITERIA_METHODS.joinToString(", ")}")
+        }
+        checkSize(criteria["likelihood"], "likelihood")
+        val levels = checkSize(criteria["consequence"], "consequence")
+        val consequence = criteria["consequence"].obj()!!
+        val keys = mutableSetOf<String>()
+        for (category in items(consequence["categories"])) {
+            val key = category.obj()?.get("key").str()
+            if (key.isNullOrEmpty() || key in keys) invalid("every category needs its own key")
+            val c = category.obj()!!
+            if (c["label"].text().isEmpty()) invalid("category $key needs a label")
+            val descriptors = c["descriptors"]
+            if (descriptors.truthy()) {
+                val d = descriptors.obj() ?: invalid("category $key: descriptors name consequence levels")
+                if (d.keys.any { k -> k.isEmpty() || !k.all { it.isDigit() } || k.toIntOrNull() !in levels }) {
+                    invalid("category $key: descriptors name consequence levels")
+                }
+            }
+            keys += key
+        }
+        validate(criteriaDefinition(criteria))
+        checkBands(criteria)
+        if (!complete) return
+        val on = enabled.toSet()
+        for (level in items(criteria["likelihood"].obj()!!["levels"]).mapNotNull { it.obj() }) {
+            if (level["description"].text().isEmpty()) invalid("likelihood ${level["level"].key()} needs a description")
+        }
+        for (category in items(consequence["categories"]).mapNotNull { it.obj() }) {
+            if (category["enabled_by"].truthy() && category["enabled_by"].key() !in on) continue
+            val descriptors = category["descriptors"].obj() ?: JsonObject(emptyMap())
+            val missing = levels.filter { descriptors[it.toString()].text().isEmpty() }
+            if (missing.isNotEmpty()) invalid("category ${category["key"].key()} needs a description for level ${missing.first()}")
+        }
+    }
+
+    private fun bandsError(message: String): Nothing = throw ScoringException("INVALID_BANDS", message)
+
+    /** Band starts: whole numbers, the first 0, each above the one below. */
+    private fun checkRising(starts: List<JsonElement?>, name: String) {
+        var previous: Long? = null
+        for (element in starts) {
+            val start = element.long()
+            if (start == null || start < 0 || (previous == null && start != 0L)) bandsError("$name: the lowest band starts at 0")
+            if (previous != null && start <= previous) bandsError("$name: each band starts above the one below")
+            previous = start
+        }
+    }
+
+    /** Optional bands for quantitative estimates (ADR 0033): `frequency_from` on every likelihood
+     *  level or none (events per 1000 years), and per category a `unit` with `value_from` for
+     *  every consequence level. */
+    private fun checkBands(criteria: JsonObject) {
+        val levels = items(criteria["likelihood"].obj()!!["levels"]).map { it.obj()!! }.sortedBy { it["level"].int()!! }
+        val starts = levels.map { it["frequency_from"] }
+        if (starts.any { !it.isNone() }) {
+            if (starts.any { it.isNone() }) bandsError("every likelihood level needs a frequency band")
+            checkRising(starts, "likelihood")
+        }
+        val numbers = scaleLevels(criteria["consequence"], "consequence").sorted()
+        for (category in items(criteria["consequence"].obj()!!["categories"]).map { it.obj()!! }) {
+            val bands = category["value_from"]
+            if (bands.isNone()) continue
+            val name = "category ${category["key"].key()}"
+            if (category["unit"].str() !in VALUE_UNITS) bandsError("$name: unit is one of ${VALUE_UNITS.joinToString(", ")}")
+            val b = bands.obj()
+            if (b == null || b.keys.sorted() != numbers.map { it.toString() }.sorted()) bandsError("$name: a band for every consequence level")
+            checkRising(numbers.map { b[it.toString()] }, name)
+        }
+    }
+
+    private fun criteriaCategoryList(criteria: JsonObject): List<JsonObject> =
+        items(criteria["consequence"].obj()?.get("categories")).mapNotNull { it.obj() }
+
+    /** The categories an estimate can fall into (they have value bands). */
+    fun bandedCategories(criteria: JsonElement?): List<String> {
+        val c = criteria.obj()?.takeIf { it.isNotEmpty() } ?: return emptyList()
+        return criteriaCategoryList(c).filter { !it["value_from"].isNone() }.map { it["key"].key() }
+    }
+
+    /** Criteria with frequency bands on likelihood and value bands on at least one category. */
+    fun quantitativeReady(criteria: JsonElement?): Boolean {
+        val c = criteria.obj()?.takeIf { it.isNotEmpty() } ?: return false
+        val levels = items(c["likelihood"].obj()?.get("levels")).mapNotNull { it.obj() }
+        return levels.all { !it["frequency_from"].isNone() } && bandedCategories(c).isNotEmpty()
+    }
+
+    private fun criteriaCategories(criteria: JsonObject): Map<String, JsonObject> =
+        criteriaCategoryList(criteria).associateBy { it["key"].key() }
+
+    private fun mapping(definition: JsonObject, name: String): JsonObject? =
+        definition["mapping"].takeIf { it.truthy() }.obj()?.get(name).obj()
+
+    private fun checkMap(native: List<Int>, common: List<Int>, mapping: JsonObject?, name: String) {
+        if (mapping == null) {
+            if (native.sorted() != common.sorted()) {
+                throw ScoringException("UNMAPPED_LEVEL", "the $name scale differs from the framework's: map each level")
+            }
+            return
+        }
+        var previous: Int? = null
+        for (level in native.sorted()) {
+            val target = mapping[level.toString()].int()
+            if (target == null || target !in common) {
+                throw ScoringException("UNMAPPED_LEVEL", "$name $level maps onto none of the framework's levels")
+            }
+            if (previous != null && target < previous) {
+                throw ScoringException("NON_MONOTONIC_MAPPING", "$name $level maps lower than the level below it")
+            }
+            previous = target
+        }
+    }
+
+    /** A methodology fits the criteria when every native level maps onto a common level, the
+     *  mappings never go down, its categories are the criteria's (ADR 0031 §3), and an estimate
+     *  it allows can fall into the criteria's bands (ADR 0033). Codes: UNMAPPED_LEVEL,
+     *  NON_MONOTONIC_MAPPING, CATEGORY_NOT_IN_FRAMEWORK, NOT_QUANTITATIVE, NO_BANDS. */
+    fun checkCompatible(definitionElement: JsonElement, criteriaElement: JsonElement) {
+        val definition = definitionElement.obj() ?: invalid("A definition is an object")
+        val criteria = criteriaElement.obj() ?: invalid("the criteria are an object")
+        val method = definition["method"].str()
+        val commonL = scaleLevels(criteria["likelihood"], "likelihood")
+        val commonC = scaleLevels(criteria["consequence"], "consequence")
+        if (method in USES_LIKELIHOOD) {
+            checkMap(likelihoods(definition), commonL, mapping(definition, "likelihood"), "likelihood")
+        } else if (method == "THREAT_VULNERABILITY") {
+            val source = mapping(definition, "likelihood_from")
+                ?: throw ScoringException("UNMAPPED_LEVEL", "map threat and vulnerability onto the framework's likelihood")
+            val parts = items(source["factors"]).map { factorByKey(definition, it.key()) }
+            if (parts.size != 2 || parts.any { it == null }) throw ScoringException("UNMAPPED_LEVEL", "likelihood_from names two of the factors")
+            val aLevels = scaleLevels(parts[0], "factor").sorted()
+            val bLevels = scaleLevels(parts[1], "factor").sorted()
+            val table = source["table"].takeIf { it.truthy() }.obj() ?: JsonObject(emptyMap())
+            for (a in aLevels) for (b in bLevels) {
+                val target = table["$a-$b"].int()
+                if (target == null || target !in commonL) throw ScoringException("UNMAPPED_LEVEL", "likelihood_from $a-$b is not mapped")
+            }
+            for (a in aLevels) for (b in bLevels) {
+                val here = table["$a-$b"].int()!!
+                for ((na, nb) in listOf(a + 1 to b, a to b + 1)) {
+                    val next = table["$na-$nb"].int() ?: continue
+                    if (next < here) throw ScoringException("NON_MONOTONIC_MAPPING", "likelihood_from $na-$nb is lower than $a-$b")
+                }
+            }
+        }
+        checkMap(scaleLevels(definition["consequence"], "consequence"), commonC, mapping(definition, "consequence"), "consequence")
+        val known = criteriaCategories(criteria)
+        for (key in categories(definition)) {
+            if (key !in known) throw ScoringException("CATEGORY_NOT_IN_FRAMEWORK", "$key is not one of the framework's categories")
+        }
+        if (definition.textOr("assessment_mode", "QUALITATIVE") != "QUALITATIVE") {
+            val direct = method in GRID_METHODS && !definition["likelihood_split"].truthy() &&
+                mapping(definition, "likelihood").let { it == null || it.isEmpty() } &&
+                mapping(definition, "consequence").let { it == null || it.isEmpty() }
+            if (!direct) {
+                throw ScoringException(
+                    "NOT_QUANTITATIVE",
+                    "an estimate needs a likelihood × consequence methodology on the framework's own scales",
+                )
+            }
+            if (!quantitativeReady(criteria)) throw ScoringException("NO_BANDS", "the framework's criteria have no frequency and value bands yet")
+            if (bandedCategories(criteria).intersect(categories(definition).toSet()).isEmpty()) {
+                throw ScoringException("NO_BANDS", "none of the methodology's categories has value bands to estimate in")
+            }
+        }
+    }
+
+    private fun mapped(definition: JsonObject, name: String, value: Int): Int =
+        mapping(definition, name)?.let { it[value.toString()].int()!! } ?: value
+
+    /** The rating on the framework's core grid from a native rating (ADR 0031 §4). */
+    private fun commonResult(definition: JsonObject, criteria: JsonObject, data: JsonObject, native: Rating): CommonRating {
+        checkCompatible(definition, criteria)
+        val method = definition["method"].str()
+        val likelihood = when (method) {
+            "THREAT_VULNERABILITY" -> {
+                val source = mapping(definition, "likelihood_from")!!
+                val (a, b) = (source["factors"] as JsonArray).map { k ->
+                    native.factors[k.key()] ?: throw ScoringException("MISSING_INPUT", "${k.key()} is needed")
+                }
+                source["table"].obj()!!["$a-$b"].int()!!
+            }
+            "IMPACT_OVER_TIME" -> onScale(data["likelihood"], scaleLevels(criteria["likelihood"], "likelihood"), "likelihood")
+            else -> mapped(definition, "likelihood", native.likelihood!!)
+        }
+        val core = criteriaDefinition(criteria)
+        val byCategory = if (method != "IMPACT_OVER_TIME") data["consequences"] else null
+        val consequences = if (byCategory.truthy()) {
+            byCategory.obj()!!.mapValues { (_, v) -> mapped(definition, "consequence", v.int()!!) }
+        } else {
+            null
+        }
+        val inputs = buildJsonObject {
+            put("likelihood", JsonPrimitive(likelihood))
+            if (consequences != null) {
+                put("consequences", JsonObject(consequences.mapValues { JsonPrimitive(it.value) }))
+            } else {
+                put("consequence", JsonPrimitive(mapped(definition, "consequence", native.consequence!!)))
+            }
+        }
+        val rated = score(core, inputs)
+        return CommonRating(
+            likelihood = likelihood,
+            consequence = consequenceRating(core, inputs),
+            consequences = consequences,
+            score = rated.score,
+            level = rated.level,
+        )
+    }
+
+    /** Score with the methodology and, under [criteria], on the core grid as well: the result's
+     *  `level` is then the common level, the native one kept as `nativeLevel` (ADR 0031 §4).
+     *  Opportunities stay on the methodology's own levels. An `estimate` in the input (ADR 0033)
+     *  stands in for the likelihood and one category's level: the bands it falls into. */
+    fun rate(definitionElement: JsonElement, input: JsonElement, criteria: JsonElement? = null): Rating {
+        val definition = definitionElement.obj() ?: invalid("A definition is an object")
+        var data = input.obj() ?: JsonObject(emptyMap())
+        val c = criteria.takeIf { !it.isNone() }
+        var estimate: Estimate? = null
+        if (!data["estimate"].isNone()) {
+            val (inputs, recorded) = fromEstimate(definition, c.obj(), data)
+            data = inputs
+            estimate = recorded
+        }
+        val result = score(definition, data).copy(estimate = estimate)
+        val kind = if (data["kind"].truthy()) data["kind"].key() else "RISK"
+        if (c == null || kind == "OPPORTUNITY") return result
+        val common = commonResult(definition, c.obj() ?: invalid("the criteria are an object"), data, result)
+        return result.copy(level = common.level, nativeLevel = result.level, common = common)
+    }
+
+    /** The level whose band holds the value: the highest whose band starts at or below it. */
+    private fun band(starts: List<Pair<Int, Long>>, value: Long): Int = starts.filter { it.second <= value }.maxOf { it.first }
+
+    private fun times(a: Long, b: Long): Long {
+        if (a != 0L && b > Long.MAX_VALUE / a) throw ScoringException("MISSING_INPUT", "estimate: the numbers are too large")
+        return a * b
+    }
+
+    /** An estimate as levels (ADR 0033): `per_1000_years` (how often, in events per 1000 years)
+     *  falls into a likelihood band; `loss` (in the category's unit) into the category's value
+     *  band. `loss_low` and `loss_high` record a range; the level comes from `loss`, the most
+     *  likely. The annual expectation is loss × rate ÷ 1000, rounded down. */
+    private fun fromEstimate(definition: JsonObject, criteria: JsonObject?, data: JsonObject): Pair<JsonObject, Estimate> {
+        if (definition.textOr("assessment_mode", "QUALITATIVE") == "QUALITATIVE") {
+            throw ScoringException("QUALITATIVE_ONLY", "this methodology is rated by choosing levels")
+        }
+        if (criteria == null || !quantitativeReady(criteria)) {
+            throw ScoringException("NO_BANDS", "the framework's criteria have no frequency and value bands")
+        }
+        if (data["kind"].truthy() && data["kind"].key() == "OPPORTUNITY") {
+            throw ScoringException("QUALITATIVE_ONLY", "opportunities are rated by choosing levels")
+        }
+        val estimate = data["estimate"].obj() ?: throw ScoringException("MISSING_INPUT", "estimate is an object")
+        val key = estimate["category"].str()
+        if (key == null || key !in bandedCategories(criteria) || key !in categories(definition)) {
+            throw ScoringException("UNKNOWN_CATEGORY", "${estimate["category"].key()} has no value bands in this methodology")
+        }
+        val numbers = mutableMapOf<String, Long>()
+        for (name in listOf("per_1000_years", "loss", "loss_low", "loss_high")) {
+            val value = estimate[name]
+            if (value.isNone() && name in setOf("loss_low", "loss_high")) continue
+            val n = value.long()
+            if (n == null || n < 0) throw ScoringException("MISSING_INPUT", "estimate.$name is a whole number from 0")
+            numbers[name] = n
+        }
+        val loss = numbers.getValue("loss")
+        val low = numbers["loss_low"]
+        val high = numbers["loss_high"]
+        if ((low != null && low > loss) || (high != null && high < loss)) {
+            throw ScoringException("MISSING_INPUT", "estimate: loss_low ≤ loss ≤ loss_high")
+        }
+        val frequency = items(criteria["likelihood"].obj()!!["levels"]).map { it.obj()!! }
+            .map { it["level"].int()!! to it["frequency_from"].long()!! }
+        val category = criteriaCategories(criteria).getValue(key)
+        val values = category["value_from"].obj()!!.map { (level, start) -> level.toInt() to start.long()!! }
+        val rate = numbers.getValue("per_1000_years")
+        val likelihood = band(frequency, rate)
+        val consequence = band(values, loss)
+        val given = data["consequences"].takeIf { it.truthy() }.obj() ?: JsonObject(emptyMap())
+        val inputs = buildJsonObject {
+            for ((k, v) in data) if (k != "estimate" && k != "consequence" && k != "likelihood" && k != "consequences") put(k, v)
+            put("likelihood", JsonPrimitive(likelihood))
+            put("consequences", JsonObject(LinkedHashMap(given).apply { put(key, JsonPrimitive(consequence)) }))
+        }
+        val recorded = Estimate(
+            category = key,
+            unit = category["unit"].str() ?: "",
+            per1000Years = rate,
+            loss = loss,
+            lossLow = low,
+            lossHigh = high,
+            likelihood = likelihood,
+            consequence = consequence,
+            annualExpectation = times(loss, rate) / 1000,
+            annualExpectationLow = low?.let { times(it, rate) / 1000 },
+            annualExpectationHigh = high?.let { times(it, rate) / 1000 },
+        )
+        return inputs to recorded
     }
 }
 
@@ -502,6 +905,32 @@ data class RatedLevel(
 
 data class MaxTolerableDisruption(val key: String?, val hours: Int)
 
+/** A rating on the framework's core grid (ADR 0031 §4): the common likelihood and consequence
+ *  (and each category's, when rated by category), the core score and the common level. */
+data class CommonRating(
+    val likelihood: Int,
+    val consequence: Int,
+    val consequences: Map<String, Int>?,
+    val score: Int,
+    val level: RatedLevel,
+)
+
+/** An estimate as recorded (ADR 0033): what was given, the bands it fell into, and the annual
+ *  expectation (loss × rate ÷ 1000, rounded down) in the category's unit. */
+data class Estimate(
+    val category: String,
+    val unit: String,
+    val per1000Years: Long,
+    val loss: Long,
+    val lossLow: Long?,
+    val lossHigh: Long?,
+    val likelihood: Int,
+    val consequence: Int,
+    val annualExpectation: Long,
+    val annualExpectationLow: Long?,
+    val annualExpectationHigh: Long?,
+)
+
 data class Rating(
     val score: Int,
     val likelihood: Int?,
@@ -511,5 +940,10 @@ data class Rating(
     val impacts: Map<String, Int>?,
     val intolerableAt: String?,
     val maxTolerableDisruption: MaxTolerableDisruption?,
+    /** Under criteria, the common level; otherwise the methodology's own. */
     val level: RatedLevel,
+    /** Under criteria, the methodology's own level. */
+    val nativeLevel: RatedLevel? = null,
+    val common: CommonRating? = null,
+    val estimate: Estimate? = null,
 )

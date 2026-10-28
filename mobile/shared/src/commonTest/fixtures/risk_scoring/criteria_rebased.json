@@ -1,0 +1,316 @@
+{
+  "name": "criteria_rebased",
+  "description": "A methodology rebased onto the framework's criteria: the common result equals the native one.",
+  "criteria": {
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ],
+      "categories": [
+        {
+          "key": "safety",
+          "label": "Safety",
+          "enabled_by": null,
+          "descriptors": {
+            "1": "Safety 1",
+            "2": "Safety 2",
+            "3": "Safety 3",
+            "4": "Safety 4",
+            "5": "Safety 5"
+          }
+        },
+        {
+          "key": "money",
+          "label": "Money",
+          "enabled_by": null,
+          "descriptors": {
+            "1": "Money 1",
+            "2": "Money 2",
+            "3": "Money 3",
+            "4": "Money 4",
+            "5": "Money 5"
+          }
+        }
+      ],
+      "rule": "WORST"
+    },
+    "method": "MULTIPLY",
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": null,
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": null,
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": null,
+        "min_score": 10,
+        "max_score": 16,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": null,
+        "min_score": 17,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": null,
+        "review_months": null
+      }
+    ]
+  },
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ],
+      "categories": [
+        {
+          "key": "safety",
+          "label": "Safety",
+          "descriptors": {}
+        }
+      ],
+      "rule": "WORST"
+    },
+    "factors": [],
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": null,
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": null,
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": null,
+        "min_score": 10,
+        "max_score": 16,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": null,
+        "min_score": 17,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": null,
+        "review_months": null
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "rated by category",
+      "input": {
+        "likelihood": 3,
+        "consequences": {
+          "safety": 4
+        }
+      },
+      "expected": {
+        "score": 12,
+        "level": "HIGH",
+        "rank": 3,
+        "native_level": "HIGH",
+        "common_likelihood": 3,
+        "common_consequence": 4,
+        "common_score": 12
+      }
+    },
+    {
+      "name": "rated directly",
+      "input": {
+        "likelihood": 2,
+        "consequence": 2
+      },
+      "expected": {
+        "score": 4,
+        "level": "LOW",
+        "rank": 1,
+        "common_score": 4
+      }
+    },
+    {
+      "name": "a category it does not have",
+      "input": {
+        "likelihood": 2,
+        "consequences": {
+          "money": 2
+        }
+      },
+      "expected": {
+        "error": "UNKNOWN_CATEGORY"
+      }
+    },
+    {
+      "name": "an estimate for a methodology rated by choosing levels",
+      "input": {
+        "estimate": {
+          "category": "safety",
+          "per_1000_years": 1,
+          "loss": 1
+        }
+      },
+      "expected": {
+        "error": "QUALITATIVE_ONLY"
+      }
+    }
+  ]
+}

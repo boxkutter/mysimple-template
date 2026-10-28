@@ -1,0 +1,408 @@
+{
+  "name": "criteria_quantitative",
+  "description": "Estimates instead of chosen levels: how often (events per 1000 years) falls into a likelihood band, the loss (in pence) into the money category's value band; the annual expectation is recorded.",
+  "criteria": {
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": "",
+          "frequency_from": 0
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": "",
+          "frequency_from": 1000
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": "",
+          "frequency_from": 4000
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": "",
+          "frequency_from": 12000
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": "",
+          "frequency_from": 52000
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ],
+      "categories": [
+        {
+          "key": "safety",
+          "label": "Safety",
+          "enabled_by": null,
+          "descriptors": {
+            "1": "Safety 1",
+            "2": "Safety 2",
+            "3": "Safety 3",
+            "4": "Safety 4",
+            "5": "Safety 5"
+          }
+        },
+        {
+          "key": "money",
+          "label": "Money",
+          "enabled_by": null,
+          "descriptors": {
+            "1": "Money 1",
+            "2": "Money 2",
+            "3": "Money 3",
+            "4": "Money 4",
+            "5": "Money 5"
+          },
+          "unit": "GBP_MINOR",
+          "value_from": {
+            "1": 0,
+            "2": 100000,
+            "3": 1000000,
+            "4": 10000000,
+            "5": 100000000
+          }
+        }
+      ],
+      "rule": "WORST"
+    },
+    "method": "MULTIPLY",
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": null,
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": null,
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": null,
+        "min_score": 10,
+        "max_score": 16,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": null,
+        "min_score": 17,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": null,
+        "review_months": null
+      }
+    ]
+  },
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ],
+      "categories": [
+        {
+          "key": "money",
+          "label": "Money",
+          "descriptors": {}
+        },
+        {
+          "key": "safety",
+          "label": "Safety",
+          "descriptors": {}
+        }
+      ],
+      "rule": "WORST"
+    },
+    "factors": [],
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": null,
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": null,
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": null,
+        "min_score": 10,
+        "max_score": 16,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": null,
+        "min_score": 17,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": null,
+        "review_months": null
+      }
+    ],
+    "assessment_mode": "EITHER"
+  },
+  "cases": [
+    {
+      "name": "twice a year, about £25,000",
+      "input": {
+        "estimate": {
+          "category": "money",
+          "per_1000_years": 2000,
+          "loss": 2500000
+        }
+      },
+      "expected": {
+        "score": 6,
+        "level": "MEDIUM",
+        "estimate_likelihood": 2,
+        "estimate_consequence": 3,
+        "annual_expectation": 5000000
+      }
+    },
+    {
+      "name": "a small loss beside a severe safety rating",
+      "input": {
+        "consequences": {
+          "safety": 5
+        },
+        "estimate": {
+          "category": "money",
+          "per_1000_years": 500,
+          "loss": 50000
+        }
+      },
+      "expected": {
+        "score": 5,
+        "level": "MEDIUM",
+        "common_consequence": 5,
+        "estimate_likelihood": 1,
+        "estimate_consequence": 1,
+        "annual_expectation": 25000
+      }
+    },
+    {
+      "name": "monthly, with a range",
+      "input": {
+        "estimate": {
+          "category": "money",
+          "per_1000_years": 12000,
+          "loss": 2000000,
+          "loss_low": 1000000,
+          "loss_high": 50000000
+        }
+      },
+      "expected": {
+        "score": 12,
+        "level": "HIGH",
+        "estimate_likelihood": 4,
+        "estimate_consequence": 3,
+        "annual_expectation": 24000000,
+        "annual_expectation_low": 12000000,
+        "annual_expectation_high": 600000000
+      }
+    },
+    {
+      "name": "just under once a year",
+      "input": {
+        "estimate": {
+          "category": "money",
+          "per_1000_years": 999,
+          "loss": 99999
+        }
+      },
+      "expected": {
+        "estimate_likelihood": 1,
+        "estimate_consequence": 1,
+        "annual_expectation": 99899
+      }
+    },
+    {
+      "name": "exactly once a year",
+      "input": {
+        "estimate": {
+          "category": "money",
+          "per_1000_years": 1000,
+          "loss": 100000
+        }
+      },
+      "expected": {
+        "estimate_likelihood": 2,
+        "estimate_consequence": 2,
+        "annual_expectation": 100000
+      }
+    },
+    {
+      "name": "a category without value bands",
+      "input": {
+        "estimate": {
+          "category": "safety",
+          "per_1000_years": 1000,
+          "loss": 1
+        }
+      },
+      "expected": {
+        "error": "UNKNOWN_CATEGORY"
+      }
+    },
+    {
+      "name": "a range that does not hold the loss",
+      "input": {
+        "estimate": {
+          "category": "money",
+          "per_1000_years": 1000,
+          "loss": 5,
+          "loss_low": 10
+        }
+      },
+      "expected": {
+        "error": "MISSING_INPUT"
+      }
+    },
+    {
+      "name": "levels chosen still work",
+      "input": {
+        "likelihood": 3,
+        "consequences": {
+          "money": 3
+        }
+      },
+      "expected": {
+        "score": 9,
+        "level": "MEDIUM"
+      }
+    }
+  ]
+}

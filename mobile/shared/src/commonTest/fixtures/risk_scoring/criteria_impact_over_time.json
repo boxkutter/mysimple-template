@@ -1,0 +1,279 @@
+{
+  "name": "criteria_impact_over_time",
+  "description": "Disruption scoped by time: the worst impact reached is the consequence on the core grid, with the likelihood rated on the common scale.",
+  "criteria": {
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ],
+      "categories": [
+        {
+          "key": "safety",
+          "label": "Safety",
+          "enabled_by": null,
+          "descriptors": {
+            "1": "Safety 1",
+            "2": "Safety 2",
+            "3": "Safety 3",
+            "4": "Safety 4",
+            "5": "Safety 5"
+          }
+        },
+        {
+          "key": "money",
+          "label": "Money",
+          "enabled_by": null,
+          "descriptors": {
+            "1": "Money 1",
+            "2": "Money 2",
+            "3": "Money 3",
+            "4": "Money 4",
+            "5": "Money 5"
+          }
+        }
+      ],
+      "rule": "WORST"
+    },
+    "method": "MULTIPLY",
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": null,
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": null,
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": null,
+        "min_score": 10,
+        "max_score": 16,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": null,
+        "min_score": 17,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": null,
+        "review_months": null
+      }
+    ]
+  },
+  "definition": {
+    "method": "IMPACT_OVER_TIME",
+    "consequence": {
+      "label": "Impact",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [],
+    "time_points": [
+      {
+        "key": "h4",
+        "label": "4 hours",
+        "hours": 4
+      },
+      {
+        "key": "d1",
+        "label": "1 day",
+        "hours": 24
+      },
+      {
+        "key": "w1",
+        "label": "1 week",
+        "hours": 168
+      }
+    ],
+    "intolerable_level": 4,
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": null,
+        "min_score": 1,
+        "max_score": 2,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": null,
+        "min_score": 3,
+        "max_score": 3,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": null,
+        "min_score": 4,
+        "max_score": 4,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": null,
+        "min_score": 5,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": null,
+        "review_months": null
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "intolerable after a day",
+      "input": {
+        "likelihood": 2,
+        "time_impacts": {
+          "h4": 1,
+          "d1": 3,
+          "w1": 5
+        }
+      },
+      "expected": {
+        "score": 5,
+        "native_level": "VERY_HIGH",
+        "max_tolerable_disruption": {
+          "key": "d1",
+          "hours": 24
+        },
+        "common_likelihood": 2,
+        "common_consequence": 5,
+        "common_score": 10,
+        "level": "HIGH",
+        "rank": 3
+      }
+    },
+    {
+      "name": "no likelihood",
+      "input": {
+        "time_impacts": {
+          "h4": 1,
+          "d1": 1,
+          "w1": 2
+        }
+      },
+      "expected": {
+        "error": "MISSING_INPUT"
+      }
+    }
+  ]
+}

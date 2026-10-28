@@ -1,0 +1,263 @@
+{
+  "name": "criteria_4x6",
+  "description": "Likelihood and consequence set to different sizes (four by six).",
+  "criteria": {
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        },
+        {
+          "level": 6,
+          "label": "6",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "method": "MULTIPLY",
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": null,
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": null,
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": null,
+        "min_score": 10,
+        "max_score": 15,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": null,
+        "min_score": 16,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": null,
+        "review_months": null
+      }
+    ]
+  },
+  "definition": {
+    "method": "MULTIPLY",
+    "likelihood": {
+      "label": "Likelihood",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        }
+      ]
+    },
+    "consequence": {
+      "label": "Consequence",
+      "levels": [
+        {
+          "level": 1,
+          "label": "1",
+          "description": ""
+        },
+        {
+          "level": 2,
+          "label": "2",
+          "description": ""
+        },
+        {
+          "level": 3,
+          "label": "3",
+          "description": ""
+        },
+        {
+          "level": 4,
+          "label": "4",
+          "description": ""
+        },
+        {
+          "level": 5,
+          "label": "5",
+          "description": ""
+        },
+        {
+          "level": 6,
+          "label": "6",
+          "description": ""
+        }
+      ],
+      "categories": [],
+      "rule": "WORST"
+    },
+    "factors": [],
+    "levels": [
+      {
+        "key": "LOW",
+        "label": "Low",
+        "colour": null,
+        "min_score": 1,
+        "max_score": 4,
+        "rank": 1,
+        "response": "ACCEPT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "MEDIUM",
+        "label": "Medium",
+        "colour": null,
+        "min_score": 5,
+        "max_score": 9,
+        "rank": 2,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "HIGH",
+        "label": "High",
+        "colour": null,
+        "min_score": 10,
+        "max_score": 15,
+        "rank": 3,
+        "response": "TREAT",
+        "time_to_treat_days": null,
+        "review_months": null
+      },
+      {
+        "key": "VERY_HIGH",
+        "label": "Very high",
+        "colour": null,
+        "min_score": 16,
+        "max_score": null,
+        "rank": 4,
+        "response": "ESCALATE",
+        "time_to_treat_days": null,
+        "review_months": null
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "the top corner",
+      "input": {
+        "likelihood": 4,
+        "consequence": 6
+      },
+      "expected": {
+        "score": 24,
+        "level": "VERY_HIGH",
+        "common_score": 24
+      }
+    },
+    {
+      "name": "rare, worst consequence",
+      "input": {
+        "likelihood": 1,
+        "consequence": 6
+      },
+      "expected": {
+        "score": 6,
+        "level": "MEDIUM",
+        "rank": 2
+      }
+    },
+    {
+      "name": "not on the scale",
+      "input": {
+        "likelihood": 5,
+        "consequence": 1
+      },
+      "expected": {
+        "error": "NOT_ON_SCALE"
+      }
+    }
+  ]
+}

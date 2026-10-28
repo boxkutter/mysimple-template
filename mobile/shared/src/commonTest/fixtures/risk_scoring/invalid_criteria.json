@@ -1,0 +1,5254 @@
+{
+  "name": "invalid_criteria",
+  "description": "Criteria the engines refuse, criteria complete enough to approve or not, and methodologies that do not fit their criteria, each with the code.",
+  "invalid_criteria": [
+    {
+      "name": "two levels of likelihood",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "SCALE_SIZE"
+    },
+    {
+      "name": "eleven levels of consequence",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            },
+            {
+              "level": 11,
+              "label": "11",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "SCALE_SIZE"
+    },
+    {
+      "name": "levels with a gap",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "4",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "SCALE_SIZE"
+    },
+    {
+      "name": "two categories with one key",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "safety",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "INVALID_DEFINITION"
+    },
+    {
+      "name": "a method that is not a grid",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "FMEA_RPN",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "INVALID_DEFINITION"
+    },
+    {
+      "name": "scores outside the levels",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 21,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "INVALID_DEFINITION"
+    },
+    {
+      "name": "frequency bands on some levels only",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "",
+              "frequency_from": 0
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "",
+              "frequency_from": 1000
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "",
+              "frequency_from": 12000
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "",
+              "frequency_from": 52000
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              },
+              "unit": "GBP_MINOR",
+              "value_from": {
+                "1": 0,
+                "2": 100000,
+                "3": 1000000,
+                "4": 10000000,
+                "5": 100000000
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "INVALID_BANDS"
+    },
+    {
+      "name": "frequency bands not starting at 0",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "",
+              "frequency_from": 5
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "",
+              "frequency_from": 1000
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "",
+              "frequency_from": 4000
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "",
+              "frequency_from": 12000
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "",
+              "frequency_from": 52000
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              },
+              "unit": "GBP_MINOR",
+              "value_from": {
+                "1": 0,
+                "2": 100000,
+                "3": 1000000,
+                "4": 10000000,
+                "5": 100000000
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "INVALID_BANDS"
+    },
+    {
+      "name": "value bands that do not rise",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "",
+              "frequency_from": 0
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "",
+              "frequency_from": 1000
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "",
+              "frequency_from": 4000
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "",
+              "frequency_from": 12000
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "",
+              "frequency_from": 52000
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              },
+              "unit": "GBP_MINOR",
+              "value_from": {
+                "1": 0,
+                "2": 100000,
+                "3": 100000,
+                "4": 10000000,
+                "5": 100000000
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "INVALID_BANDS"
+    },
+    {
+      "name": "value bands without a known unit",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "",
+              "frequency_from": 0
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "",
+              "frequency_from": 1000
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "",
+              "frequency_from": 4000
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "",
+              "frequency_from": 12000
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "",
+              "frequency_from": 52000
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              },
+              "unit": "EUROS",
+              "value_from": {
+                "1": 0,
+                "2": 100000,
+                "3": 1000000,
+                "4": 10000000,
+                "5": 100000000
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "INVALID_BANDS"
+    },
+    {
+      "name": "value bands missing a level",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "",
+              "frequency_from": 0
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "",
+              "frequency_from": 1000
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "",
+              "frequency_from": 4000
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "",
+              "frequency_from": 12000
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "",
+              "frequency_from": 52000
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              },
+              "unit": "GBP_MINOR",
+              "value_from": {
+                "1": 0,
+                "2": 100000,
+                "3": 1000000,
+                "4": 10000000
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "INVALID_BANDS"
+    }
+  ],
+  "completeness": [
+    {
+      "name": "every level described",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "Described"
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "Described"
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "Described"
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "Described"
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "Described"
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "enabled": [],
+      "code": null
+    },
+    {
+      "name": "a category level not described",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "Described"
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "Described"
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "Described"
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "Described"
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "Described"
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "enabled": [],
+      "code": "INVALID_DEFINITION"
+    },
+    {
+      "name": "a likelihood level not described",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "Described"
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "Described"
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "Described"
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "Described"
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "enabled": [],
+      "code": "INVALID_DEFINITION"
+    },
+    {
+      "name": "a category not switched on needs no descriptions",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "Described"
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "Described"
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "Described"
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "Described"
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "Described"
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            },
+            {
+              "key": "energy",
+              "label": "Energy",
+              "enabled_by": "operation.energy_review",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "enabled": [],
+      "code": null
+    },
+    {
+      "name": "a category switched on needs them",
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "Described"
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "Described"
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "Described"
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "Described"
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "Described"
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            },
+            {
+              "key": "energy",
+              "label": "Energy",
+              "enabled_by": "operation.energy_review",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "enabled": [
+        "operation.energy_review"
+      ],
+      "code": "INVALID_DEFINITION"
+    }
+  ],
+  "incompatible": [
+    {
+      "name": "native scales without a mapping",
+      "definition": {
+        "method": "FMEA_RPN",
+        "likelihood": {
+          "label": "Occurrence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Severity",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ],
+          "categories": [],
+          "rule": "WORST"
+        },
+        "factors": [
+          {
+            "key": "detection",
+            "label": "Detection",
+            "role": "DETECTION",
+            "levels": [
+              {
+                "level": 1,
+                "label": "1",
+                "description": ""
+              },
+              {
+                "level": 2,
+                "label": "2",
+                "description": ""
+              },
+              {
+                "level": 3,
+                "label": "3",
+                "description": ""
+              },
+              {
+                "level": 4,
+                "label": "4",
+                "description": ""
+              },
+              {
+                "level": 5,
+                "label": "5",
+                "description": ""
+              },
+              {
+                "level": 6,
+                "label": "6",
+                "description": ""
+              },
+              {
+                "level": 7,
+                "label": "7",
+                "description": ""
+              },
+              {
+                "level": 8,
+                "label": "8",
+                "description": ""
+              },
+              {
+                "level": 9,
+                "label": "9",
+                "description": ""
+              },
+              {
+                "level": 10,
+                "label": "10",
+                "description": ""
+              }
+            ]
+          }
+        ],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 79,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 80,
+            "max_score": 159,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 160,
+            "max_score": 299,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 300,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "UNMAPPED_LEVEL"
+    },
+    {
+      "name": "a native level not mapped",
+      "definition": {
+        "method": "FMEA_RPN",
+        "likelihood": {
+          "label": "Occurrence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Severity",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ],
+          "categories": [],
+          "rule": "WORST"
+        },
+        "factors": [
+          {
+            "key": "detection",
+            "label": "Detection",
+            "role": "DETECTION",
+            "levels": [
+              {
+                "level": 1,
+                "label": "1",
+                "description": ""
+              },
+              {
+                "level": 2,
+                "label": "2",
+                "description": ""
+              },
+              {
+                "level": 3,
+                "label": "3",
+                "description": ""
+              },
+              {
+                "level": 4,
+                "label": "4",
+                "description": ""
+              },
+              {
+                "level": 5,
+                "label": "5",
+                "description": ""
+              },
+              {
+                "level": 6,
+                "label": "6",
+                "description": ""
+              },
+              {
+                "level": 7,
+                "label": "7",
+                "description": ""
+              },
+              {
+                "level": 8,
+                "label": "8",
+                "description": ""
+              },
+              {
+                "level": 9,
+                "label": "9",
+                "description": ""
+              },
+              {
+                "level": 10,
+                "label": "10",
+                "description": ""
+              }
+            ]
+          }
+        ],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 79,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 80,
+            "max_score": 159,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 160,
+            "max_score": 299,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 300,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ],
+        "mapping": {
+          "likelihood": {
+            "1": 1,
+            "2": 1,
+            "3": 2,
+            "4": 2,
+            "5": 3,
+            "6": 3,
+            "7": 4,
+            "8": 4,
+            "9": 5
+          },
+          "consequence": {
+            "1": 1,
+            "2": 1,
+            "3": 2,
+            "4": 2,
+            "5": 3,
+            "6": 3,
+            "7": 4,
+            "8": 4,
+            "9": 5
+          }
+        }
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "UNMAPPED_LEVEL"
+    },
+    {
+      "name": "a mapping that goes down",
+      "definition": {
+        "method": "FMEA_RPN",
+        "likelihood": {
+          "label": "Occurrence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Severity",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ],
+          "categories": [],
+          "rule": "WORST"
+        },
+        "factors": [
+          {
+            "key": "detection",
+            "label": "Detection",
+            "role": "DETECTION",
+            "levels": [
+              {
+                "level": 1,
+                "label": "1",
+                "description": ""
+              },
+              {
+                "level": 2,
+                "label": "2",
+                "description": ""
+              },
+              {
+                "level": 3,
+                "label": "3",
+                "description": ""
+              },
+              {
+                "level": 4,
+                "label": "4",
+                "description": ""
+              },
+              {
+                "level": 5,
+                "label": "5",
+                "description": ""
+              },
+              {
+                "level": 6,
+                "label": "6",
+                "description": ""
+              },
+              {
+                "level": 7,
+                "label": "7",
+                "description": ""
+              },
+              {
+                "level": 8,
+                "label": "8",
+                "description": ""
+              },
+              {
+                "level": 9,
+                "label": "9",
+                "description": ""
+              },
+              {
+                "level": 10,
+                "label": "10",
+                "description": ""
+              }
+            ]
+          }
+        ],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 79,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 80,
+            "max_score": 159,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 160,
+            "max_score": 299,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 300,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ],
+        "mapping": {
+          "likelihood": {
+            "1": 1,
+            "2": 1,
+            "3": 2,
+            "4": 2,
+            "5": 3,
+            "6": 2,
+            "7": 4,
+            "8": 4,
+            "9": 5,
+            "10": 5
+          },
+          "consequence": {
+            "1": 1,
+            "2": 1,
+            "3": 2,
+            "4": 2,
+            "5": 3,
+            "6": 3,
+            "7": 4,
+            "8": 4,
+            "9": 5,
+            "10": 5
+          }
+        }
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "NON_MONOTONIC_MAPPING"
+    },
+    {
+      "name": "a category the framework does not have",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "descriptors": {}
+            },
+            {
+              "key": "weather",
+              "label": "Weather",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "CATEGORY_NOT_IN_FRAMEWORK"
+    },
+    {
+      "name": "threat and vulnerability not mapped",
+      "definition": {
+        "method": "THREAT_VULNERABILITY",
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "confidentiality",
+              "label": "Confidentiality",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [
+          {
+            "key": "threat",
+            "label": "Threat",
+            "role": "THREAT",
+            "levels": [
+              {
+                "level": 1,
+                "label": "1",
+                "description": ""
+              },
+              {
+                "level": 2,
+                "label": "2",
+                "description": ""
+              },
+              {
+                "level": 3,
+                "label": "3",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "key": "vulnerability",
+            "label": "Vulnerability",
+            "role": "VULNERABILITY",
+            "levels": [
+              {
+                "level": 1,
+                "label": "1",
+                "description": ""
+              },
+              {
+                "level": 2,
+                "label": "2",
+                "description": ""
+              },
+              {
+                "level": 3,
+                "label": "3",
+                "description": ""
+              }
+            ]
+          }
+        ],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 8,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 9,
+            "max_score": 17,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 18,
+            "max_score": 29,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 30,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            },
+            {
+              "key": "confidentiality",
+              "label": "Confidentiality",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Confidentiality 1",
+                "2": "Confidentiality 2",
+                "3": "Confidentiality 3",
+                "4": "Confidentiality 4",
+                "5": "Confidentiality 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "UNMAPPED_LEVEL"
+    },
+    {
+      "name": "a likelihood table that goes down",
+      "definition": {
+        "method": "THREAT_VULNERABILITY",
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "confidentiality",
+              "label": "Confidentiality",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [
+          {
+            "key": "threat",
+            "label": "Threat",
+            "role": "THREAT",
+            "levels": [
+              {
+                "level": 1,
+                "label": "1",
+                "description": ""
+              },
+              {
+                "level": 2,
+                "label": "2",
+                "description": ""
+              },
+              {
+                "level": 3,
+                "label": "3",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "key": "vulnerability",
+            "label": "Vulnerability",
+            "role": "VULNERABILITY",
+            "levels": [
+              {
+                "level": 1,
+                "label": "1",
+                "description": ""
+              },
+              {
+                "level": 2,
+                "label": "2",
+                "description": ""
+              },
+              {
+                "level": 3,
+                "label": "3",
+                "description": ""
+              }
+            ]
+          }
+        ],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 8,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 9,
+            "max_score": 17,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 18,
+            "max_score": 29,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 30,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ],
+        "mapping": {
+          "likelihood_from": {
+            "factors": [
+              "threat",
+              "vulnerability"
+            ],
+            "table": {
+              "1-1": 1,
+              "1-2": 2,
+              "1-3": 2,
+              "2-1": 2,
+              "2-2": 3,
+              "2-3": 4,
+              "3-1": 2,
+              "3-2": 4,
+              "3-3": 3
+            }
+          }
+        }
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            },
+            {
+              "key": "confidentiality",
+              "label": "Confidentiality",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Confidentiality 1",
+                "2": "Confidentiality 2",
+                "3": "Confidentiality 3",
+                "4": "Confidentiality 4",
+                "5": "Confidentiality 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "NON_MONOTONIC_MAPPING"
+    },
+    {
+      "name": "estimates on native scales",
+      "definition": {
+        "method": "FMEA_RPN",
+        "likelihood": {
+          "label": "Occurrence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Severity",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            },
+            {
+              "level": 6,
+              "label": "6",
+              "description": ""
+            },
+            {
+              "level": 7,
+              "label": "7",
+              "description": ""
+            },
+            {
+              "level": 8,
+              "label": "8",
+              "description": ""
+            },
+            {
+              "level": 9,
+              "label": "9",
+              "description": ""
+            },
+            {
+              "level": 10,
+              "label": "10",
+              "description": ""
+            }
+          ],
+          "categories": [],
+          "rule": "WORST"
+        },
+        "factors": [
+          {
+            "key": "detection",
+            "label": "Detection",
+            "role": "DETECTION",
+            "levels": [
+              {
+                "level": 1,
+                "label": "1",
+                "description": ""
+              },
+              {
+                "level": 2,
+                "label": "2",
+                "description": ""
+              },
+              {
+                "level": 3,
+                "label": "3",
+                "description": ""
+              },
+              {
+                "level": 4,
+                "label": "4",
+                "description": ""
+              },
+              {
+                "level": 5,
+                "label": "5",
+                "description": ""
+              },
+              {
+                "level": 6,
+                "label": "6",
+                "description": ""
+              },
+              {
+                "level": 7,
+                "label": "7",
+                "description": ""
+              },
+              {
+                "level": 8,
+                "label": "8",
+                "description": ""
+              },
+              {
+                "level": 9,
+                "label": "9",
+                "description": ""
+              },
+              {
+                "level": 10,
+                "label": "10",
+                "description": ""
+              }
+            ]
+          }
+        ],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 79,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 80,
+            "max_score": 159,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 160,
+            "max_score": 299,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 300,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ],
+        "mapping": {
+          "likelihood": {
+            "1": 1,
+            "2": 1,
+            "3": 2,
+            "4": 2,
+            "5": 3,
+            "6": 3,
+            "7": 4,
+            "8": 4,
+            "9": 5,
+            "10": 5
+          },
+          "consequence": {
+            "1": 1,
+            "2": 1,
+            "3": 2,
+            "4": 2,
+            "5": 3,
+            "6": 3,
+            "7": 4,
+            "8": 4,
+            "9": 5,
+            "10": 5
+          }
+        },
+        "assessment_mode": "QUANTITATIVE"
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "",
+              "frequency_from": 0
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "",
+              "frequency_from": 1000
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "",
+              "frequency_from": 4000
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "",
+              "frequency_from": 12000
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "",
+              "frequency_from": 52000
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              },
+              "unit": "GBP_MINOR",
+              "value_from": {
+                "1": 0,
+                "2": 100000,
+                "3": 1000000,
+                "4": 10000000,
+                "5": 100000000
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "NOT_QUANTITATIVE"
+    },
+    {
+      "name": "estimates without bands in the criteria",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ],
+        "assessment_mode": "EITHER"
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "NO_BANDS"
+    },
+    {
+      "name": "estimates where no category of the methodology has bands",
+      "definition": {
+        "method": "MULTIPLY",
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "descriptors": {}
+            }
+          ],
+          "rule": "WORST"
+        },
+        "factors": [],
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ],
+        "assessment_mode": "EITHER"
+      },
+      "criteria": {
+        "likelihood": {
+          "label": "Likelihood",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": "",
+              "frequency_from": 0
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": "",
+              "frequency_from": 1000
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": "",
+              "frequency_from": 4000
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": "",
+              "frequency_from": 12000
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": "",
+              "frequency_from": 52000
+            }
+          ]
+        },
+        "consequence": {
+          "label": "Consequence",
+          "levels": [
+            {
+              "level": 1,
+              "label": "1",
+              "description": ""
+            },
+            {
+              "level": 2,
+              "label": "2",
+              "description": ""
+            },
+            {
+              "level": 3,
+              "label": "3",
+              "description": ""
+            },
+            {
+              "level": 4,
+              "label": "4",
+              "description": ""
+            },
+            {
+              "level": 5,
+              "label": "5",
+              "description": ""
+            }
+          ],
+          "categories": [
+            {
+              "key": "safety",
+              "label": "Safety",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Safety 1",
+                "2": "Safety 2",
+                "3": "Safety 3",
+                "4": "Safety 4",
+                "5": "Safety 5"
+              }
+            },
+            {
+              "key": "money",
+              "label": "Money",
+              "enabled_by": null,
+              "descriptors": {
+                "1": "Money 1",
+                "2": "Money 2",
+                "3": "Money 3",
+                "4": "Money 4",
+                "5": "Money 5"
+              },
+              "unit": "GBP_MINOR",
+              "value_from": {
+                "1": 0,
+                "2": 100000,
+                "3": 1000000,
+                "4": 10000000,
+                "5": 100000000
+              }
+            }
+          ],
+          "rule": "WORST"
+        },
+        "method": "MULTIPLY",
+        "levels": [
+          {
+            "key": "LOW",
+            "label": "Low",
+            "colour": null,
+            "min_score": 1,
+            "max_score": 4,
+            "rank": 1,
+            "response": "ACCEPT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "MEDIUM",
+            "label": "Medium",
+            "colour": null,
+            "min_score": 5,
+            "max_score": 9,
+            "rank": 2,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "HIGH",
+            "label": "High",
+            "colour": null,
+            "min_score": 10,
+            "max_score": 16,
+            "rank": 3,
+            "response": "TREAT",
+            "time_to_treat_days": null,
+            "review_months": null
+          },
+          {
+            "key": "VERY_HIGH",
+            "label": "Very high",
+            "colour": null,
+            "min_score": 17,
+            "max_score": null,
+            "rank": 4,
+            "response": "ESCALATE",
+            "time_to_treat_days": null,
+            "review_months": null
+          }
+        ]
+      },
+      "code": "NO_BANDS"
+    }
+  ]
+}

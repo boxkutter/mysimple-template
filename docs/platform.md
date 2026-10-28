@@ -27,6 +27,12 @@ Every app made from this template works the same way as the **Mobile Auditor** a
 
 See contract §7: register the app's entity names and a `SyncPolicy` per entity, add AI tasks and a system prompt, add reference-data modules as needed. After any server change, refresh `api/openapi.yaml` in `iso` and mirror the wire types in the app's `shared` module.
 
-## Risk methodologies (platform M13)
+## Risk methodologies (platform M13, M16)
 
 An organisation rates risks with its own methodologies (platform ADR 0022, ADR 0030). In an organisation workspace an app reads them read-only from `GET /v1/orgs/{org_id}/risk/methodologies/published` and scores locally with `shared/risk/RiskScoring` (the same fixed methods as the server, tested against the same fixtures) to show the level while the user rates; the server re-rates what is synced and its level counts. `risk_criteria` is organisation-owned since M13, and an app cannot set a risk's status to `ACCEPTED` (the push answers `INVALID_TRANSITION`): acceptance needs the authority for the risk's level and happens on the platform. Contract §7.6.
+
+Since M16 the organisation's risk framework carries **criteria** (platform ADR 0031): common likelihood and consequence scales, consequence categories, a core grid and its levels, onto which each methodology maps its own scales. The published methodology comes with `criteria` (or null) and `criteria_current`. Score with `RiskScoring.rate(definition, input, criteria)`: its `level` is the common level, `nativeLevel` the methodology's own and `common` the rating on the core grid. Contract §7.7.
+
+- **Notes:** an assessment's `rating_notes` say why each level was chosen. Where the criteria's `notes.required_from_rank` is set, a rating at or above that rank needs a note for its likelihood and for each consequence rated; ask for them, as the server refuses a push without them. Contract §7.8.
+- **Estimates:** where the methodology's `assessment_mode` is `QUANTITATIVE` or `EITHER` and the criteria have frequency and value bands (`RiskScoring.quantitativeReady`), an assessment may carry an `estimate` (`{category, per_1000_years, loss, loss_low?, loss_high?}`) instead of chosen levels; `rate` gives the bands it falls into and the annual expectation, as the server does. Contract §7.9.
+- **Acceptance:** acceptance stays on the platform, but an app that offers it shows `GET risk/register/{id}/rating` (the rating in words, `heightened` and `objectives`) first and sends `objectives_confirmed` with `POST risk/register/{id}/accept` when the risk threatens objectives. Contract §7.11.
