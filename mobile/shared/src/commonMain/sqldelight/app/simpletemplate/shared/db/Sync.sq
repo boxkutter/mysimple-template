@@ -74,6 +74,12 @@ enqueue:
 INSERT INTO outbox_operation(op_id, entity_type, entity_id, op_type, payload, base_version, created_at, owner_org_id)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
+-- The base of the last operation still to be sent for a record (refused ones are never sent).
+lastUnsentBase:
+SELECT base_version FROM outbox_operation
+WHERE entity_type = ? AND entity_id = ? AND rejected = 0
+ORDER BY seq DESC LIMIT 1;
+
 pending:
 SELECT * FROM outbox_operation ORDER BY seq LIMIT :limit;
 

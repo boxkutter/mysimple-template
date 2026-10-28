@@ -89,8 +89,8 @@ android {
         applicationId = "app.simpletemplate"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 4
-        versionName = "0.2.2"
+        versionCode = 5
+        versionName = "0.2.5"
         manifestPlaceholders["oidcScheme"] = oidcScheme
         buildConfigField("String", "OIDC_SCHEME", "\"$oidcScheme\"")
         buildConfigField("String", "BASE_URL", "\"${setting("platform.baseUrl") ?: "https://platform.not-configured.invalid"}\"")

@@ -54,7 +54,7 @@ UUIDv7 ids generated on the device; `version` 0 until accepted; epoch-millisecon
 
 ## Sync (contract §5)
 
-- **Outbox**: every local write queues `{op_id, entity_type, entity_id, op_type, payload, base_version}` in `outbox_operation` **in the same transaction** (`data/Outbox.kt`), tagged with the workspace it was made in. Only that organisation's sync sends it; the local workspace's operations stay on the phone until it is attached.
+- **Outbox**: every local write queues `{op_id, entity_type, entity_id, op_type, payload, base_version}` in `outbox_operation` **in the same transaction** (`data/Outbox.kt`), tagged with the workspace it was made in. Only that organisation's sync sends it; the local workspace's operations stay on the phone until it is attached. A repository passes the record's local version, which moves only when the platform accepts a change; the outbox bases each operation on the version the platform will hold when it arrives (the last unsent, not refused operation's base + 1 for the same record, else the local version; a CREATE is 0), so several changes made before a sync are sent as a chain, not as conflicts with each other.
 - **Sending and receiving** (`sync/SyncEngine.kt`): `POST /v1/sync` with `X-Org-Id` and `X-Device-Id` (a stable id per account on the phone: see "Several accounts on one phone" below), the organisation's own **cursor** and the queued operations; paged until the platform has nothing more (`has_more`; a page can be short because the feed is scoped to the user's assignments, §5.3). Per result:
 
   | Status | What the app does |

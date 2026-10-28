@@ -2,6 +2,20 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.2.5 — sync: changes made before a sync are sent as a chain (fix; every app should take it)
+
+Ported from My Simple Auditor (its commit `6747708`). A record's local `version` moves only when the platform accepts a change, and the platform compares an operation's `base_version` strictly with its current version. The outbox based every UPDATE and DELETE on the row's version, so a second edit made offline, an edit after an unsent CREATE, or several operations queued for one change (for example the steps of a status path) came back from the platform as false CONFLICTs.
+
+- **`data/Outbox.kt`**: each operation is based on the version the platform will hold when it arrives: a CREATE on 0; otherwise the base of the last unsent, not refused operation for the same record + 1; with nothing unsent, the row's version (`predictedBase`, the same rule as the platform's web app). Refused operations are left out; operations already queued behind a refused one come back as a CONFLICT for the user to resolve. The parameter of `updated`/`deleted` is now `recordVersion` (still the row's local version; callers do not change).
+- **`Sync.sq`**: new query `lastUnsentBase`. No schema change, no migration.
+- Tests: `ChainedBaseTest`, with a fake platform applying the server's version rule (71 shared tests). Version 0.2.5 (code 5).
+
+To take it, in any app made from an earlier version:
+
+1. Add `lastUnsentBase` to the app's `Sync.sq` (after `enqueue`).
+2. In `Outbox.kt`, add `predictedBase` and compute the base in `enqueue` (`if (op == "CREATE") 0 else predictedBase(…)`). If the app queues several operations for one change (a status path), keep passing the row's version to each: each step is then based on the one queued before it.
+3. Copy `ChainedBaseTest.kt`, with the app's names and entities.
+
 ## 0.2.4 — platform notes: an audit's frame edited in the web, read acknowledgement (documentation only)
 
 - **An audit's frame may change in the web before its work starts** (platform ADR 0047, contract §7.14): title, dates, mode, type, criteria, processes and site slots. Records such as `assessment_unit` and `assessment_site` may arrive changed or as tombstones. An app applies them as from another device; one that copies dates or slots into its own plan should refresh them.
