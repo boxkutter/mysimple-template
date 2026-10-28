@@ -23,6 +23,9 @@ internal class ScriptedPlatform {
     val requests = mutableListOf<Pair<HttpRequestData, SyncRequest>>()
     val wipeAcks = mutableListOf<Pair<HttpRequestData, List<String>>>()
     val answers = ArrayDeque<(SyncRequest) -> String>()
+    /** Device ids the platform has registered to another account (answered with 401). */
+    val othersDevices = mutableSetOf<String>()
+    var refuseEveryDevice = false
     var other: suspend MockRequestHandleScope.(HttpRequestData, String) -> io.ktor.client.request.HttpResponseData = { _, _ -> respondError(HttpStatusCode.NotFound) }
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -34,6 +37,10 @@ internal class ScriptedPlatform {
             "/v1/sync" -> {
                 val parsed = json.decodeFromString<SyncRequest>(body)
                 requests += request to parsed
+                if (refuseEveryDevice || request.headers["X-Device-Id"] in othersDevices) return@run respond(
+                    """{"title":"unauthorized","status":401,"detail":"This device belongs to another account"}""",
+                    HttpStatusCode.Unauthorized, headersOf(HttpHeaders.ContentType, "application/problem+json"),
+                )
                 respond(answers.removeFirst()(parsed), HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))
             }
             "/v1/sync/wipe-ack" -> {

@@ -2,6 +2,26 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.2.2 — several accounts on one phone
+
+Ported from My Simple Auditor (its "C11"). The platform registers a phone's `X-Device-Id` to the first account that syncs with it and refuses it for any other account (`401` "This device belongs to another account"), so two people sharing a phone, or one person with two accounts, could not both sync. Now:
+
+- **One device id per account** (`sync/SyncEngine.kt`): `SyncEngine` takes the signed-in `userId` and keeps the id under `_device:<user id>`. The single id an installation had before goes to the first account that syncs after the update. On the `401` above the account gets a new id (`renewDeviceId`) and the sync is tried once more; any other `401`, or a second one, is raised as before (`ApiException.deviceOfAnotherAccount`).
+- **Whose the data is** (new `sync/PhoneAccounts.kt`): the account the phone's organisation data belongs to, the organisation workspaces on the phone with their unsent changes (queued, refused or in conflict), and their removal through `WorkspacePurge`. Derived from the schema like the purge: every table with `owner_org_id`, so an app's own tables and files (`FileStorage`, any entity with `FileColumns`) are covered without listing them.
+- **Signing in as a different account** (new `auth/AccountChange.kt`, `AuthRepository.signIn(email, browser, discardUnsent)`): removes the previous account's organisation workspaces from the phone, even an organisation both accounts belong to (its data on the phone is the previous account's); the local workspace stays. The platform keeps those records: they come back when that account signs in again. When the owner was never recorded (data from 0.2.1 or earlier), the organisations the account signing in belongs to are taken as its own and only the others leave; `AppContainer.repositories` also records the signed-in account as the owner the first time.
+- **Unsent changes are a decision first**: if the previous account has changes not sent, nothing is signed in and `UnsentChangesException` names whose they are. `LoginScreen` asks before the sign-in page when the email differs (`AuthRepository.unsentChangesOfAnother`), and again by user id after it: a dialog, "Changes not sent", offers **Sign in as <name>** (to sync them first) or **Discard them**.
+- Tests: `AccountChangeTest`, `PhoneAccountsTest`, and additions to `SyncEngineTest` and `AuthRepositoryTest` (66 shared tests). Version 0.2.2 (code 4).
+
+**Personal data:** the previous account's user id, name and email are kept on the phone (in the encrypted database, as the `_data_owner` row of `sync_cursor`) together with its organisation data, so the phone can tell that a different account is signing in and name whose changes are unsent. They are replaced when another account signs in; signing out alone does not remove them, nor the data.
+
+To take it, in an app made from 0.2.0 or 0.2.1:
+
+1. Copy `auth/AccountChange.kt` and `sync/PhoneAccounts.kt` (with the app's names) and the two tests.
+2. `SyncEngine`: the `userId` parameter, `deviceId`/`renewDeviceId` and the retry in `sync`, and `ApiException.deviceOfAnotherAccount`. Pass `session.userId` where `AppContainer` builds it.
+3. `AuthRepository`: the `phoneAccounts` parameter, `signIn(…, discardUnsent)`, `handOver` and `unsentChangesOfAnother`. In `AppContainer`, `phoneAccounts` (with the app's registry and `files?.delete`), passed to `AuthRepository`, and the `claim` in `repositories`.
+4. `LoginScreen`: `signIn(discardUnsent, checkFirst)` and the "Changes not sent" dialog.
+5. No database change: the ids and the owner are `sync_cursor` rows whose scope starts with `_`, which a schema change never resets.
+
 ## 0.2.1 — the server address in the app; what the platform added in M10 to M17
 
 **The server address can be changed in debug builds**, so a phone follows a development server whose LAN address changes without reinstalling:

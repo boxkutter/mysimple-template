@@ -1,6 +1,7 @@
 package app.simpletemplate.shared.sync
 
 import app.simpletemplate.shared.ApiClient
+import app.simpletemplate.shared.ApiException
 import app.simpletemplate.shared.data.ItemRepository
 import app.simpletemplate.shared.data.Tenant
 import app.simpletemplate.shared.data.appEntities
@@ -280,5 +281,50 @@ class SyncEngineTest {
         platform.answers += { req -> assertNull(req.cursor); answer() }
         engine.sync(org)
         assertEquals(1, platform.requests.size)
+    }
+
+    @Test
+    fun eachAccountHasItsOwnDeviceIdAndTheFirstKeepsTheInstallationsId() {
+        // Before ids were per account, the installation had one
+        val installation = SyncEngine(store, api).deviceId()
+        val ada = Uuid.generateV7()
+        val bo = Uuid.generateV7()
+        val forAda = SyncEngine(store, api, userId = ada).deviceId()
+        val forBo = SyncEngine(store, api, userId = bo).deviceId()
+
+        assertEquals(installation, forAda)
+        assertTrue(forBo != forAda)
+        // Stable for each account, whichever signs in when
+        assertEquals(forAda, SyncEngine(store, api, userId = ada).deviceId())
+        assertEquals(forBo, SyncEngine(store, api, userId = bo).deviceId())
+    }
+
+    @Test
+    fun aDeviceIdThePlatformHasForAnotherAccountIsReplacedOnce() = runTest {
+        val bo = SyncEngine(store, api, registry = registry, userId = Uuid.generateV7())
+        val old = bo.deviceId()
+        platform.othersDevices += old.toString()
+        platform.answers += { answer() }
+
+        bo.sync(org)
+
+        val sent = platform.requests.map { it.first.headers["X-Device-Id"] }
+        assertEquals(2, sent.size)
+        assertEquals(old.toString(), sent[0])
+        assertTrue(sent[1] != old.toString())
+        assertEquals(sent[1], bo.deviceId().toString())
+
+        // Refused whatever the id: one new id per sync, not more
+        platform.refuseEveryDevice = true
+        val failure = runCatching { bo.sync(org) }.exceptionOrNull()
+        assertTrue(failure is ApiException && failure.status == 401)
+        assertEquals(4, platform.requests.size)
+    }
+
+    @Test
+    fun anotherRefusalIsNotADeviceProblem() {
+        assertTrue(ApiException(401, "This device belongs to another account").deviceOfAnotherAccount)
+        assertTrue(!ApiException(401, "Invalid or expired access token").deviceOfAnotherAccount)
+        assertTrue(!ApiException(403, "This device belongs to another account").deviceOfAnotherAccount)
     }
 }

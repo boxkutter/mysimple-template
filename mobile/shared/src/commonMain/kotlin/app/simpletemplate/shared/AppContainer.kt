@@ -1,6 +1,7 @@
 package app.simpletemplate.shared
 
 import app.simpletemplate.shared.auth.AuthRepository
+import app.simpletemplate.shared.auth.DataOwner
 import app.simpletemplate.shared.auth.OidcClient
 import app.simpletemplate.shared.auth.OidcSettings
 import app.simpletemplate.shared.auth.Session
@@ -13,6 +14,7 @@ import app.simpletemplate.shared.data.UserSettings
 import app.simpletemplate.shared.data.appEntities
 import app.simpletemplate.shared.sync.Attachments
 import app.simpletemplate.shared.sync.FileStorage
+import app.simpletemplate.shared.sync.PhoneAccounts
 import app.simpletemplate.shared.sync.SyncEngine
 import app.simpletemplate.shared.sync.WorkspaceAttach
 import app.simpletemplate.shared.sync.WorkspaceSync
@@ -47,7 +49,9 @@ class AppContainer(
     val api = ApiClient(server.baseUrl.value, sessions = sessions, oidc = oidc, currentBaseUrl = { server.baseUrl.value })
     /** The API's address now. */
     val baseUrl: String get() = server.baseUrl.value
-    val auth = AuthRepository(api, sessions, oidc, onIssuer = server::issuerFound)
+    /** Whose the organisation data on this phone is; another account signing in removes it. */
+    val phoneAccounts: PhoneAccounts by lazy { PhoneAccounts(localStore, appEntities()) { files?.delete(it) } }
+    val auth = AuthRepository(api, sessions, oidc, onIssuer = server::issuerFound, phoneAccounts = { phoneAccounts })
 
     /**
      * Moves to the platform at [input] (debug builds): checks that it answers, then, when an
@@ -76,11 +80,13 @@ class AppContainer(
     /** Repositories for the open workspace. Opens the database if needed. */
     suspend fun repositories(session: Session): Repositories = withContext(Dispatchers.IO) {
         val store = localStore
+        // Data synced before the phone kept whose it is: it is the signed-in account's
+        if (!session.isLocal) phoneAccounts.claim(DataOwner(session.userId.toString(), session.name, session.email))
         val sync = if (session.isLocal) null else {
             val registry = appEntities()
             WorkspaceSync(
                 store, session.organisationId,
-                SyncEngine(store, api, deviceName, appVersion, registry) { files?.delete(it) },
+                SyncEngine(store, api, deviceName, appVersion, registry, session.userId) { files?.delete(it) },
                 files?.let { Attachments(store, api, storageHttp, it, registry) },
                 onRemoved = auth::workspaceRemoved,
             )

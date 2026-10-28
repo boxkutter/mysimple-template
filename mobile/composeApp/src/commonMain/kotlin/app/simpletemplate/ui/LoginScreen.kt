@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import app.simpletemplate.shared.ApiException
 import app.simpletemplate.shared.auth.AuthRepository
 import app.simpletemplate.shared.auth.OidcException
+import app.simpletemplate.shared.auth.UnsentChangesException
 import app.simpletemplate.ui.auth.SignInCancelled
 import app.simpletemplate.ui.auth.rememberOidcBrowser
 import kotlinx.coroutines.CancellationException
@@ -54,16 +57,24 @@ fun LoginScreen(
     // What went wrong underneath, for support (shown small under the message).
     var detail by remember { mutableStateOf<String?>(null) }
     val canSubmit = email.contains('@') && !busy
+    // Another account's changes on this phone not sent yet: the person decides before signing in
+    var unsent by remember { mutableStateOf<UnsentChangesException?>(null) }
 
-    fun submit() {
-        if (!canSubmit) return
+    fun signIn(discardUnsent: Boolean, checkFirst: Boolean) {
+        if (!email.contains('@') || busy) return
         busy = true
         error = null
         note = null
         detail = null
         scope.launch {
             try {
-                val result = auth.signIn(email, browser)
+                if (checkFirst) {
+                    auth.unsentChangesOfAnother(email)?.let { previous ->
+                        unsent = UnsentChangesException(previous, 0)
+                        return@launch
+                    }
+                }
+                val result = auth.signIn(email, browser, discardUnsent)
                 if (result.workspaces.isEmpty()) {
                     note = if (auth.local != null) {
                         "You are signed in. Your account does not belong to an organisation yet: on the Status page you can make one from the information on this phone."
@@ -74,6 +85,8 @@ fun LoginScreen(
                 onSignedIn(result.workspaces.isNotEmpty())
             } catch (e: CancellationException) {
                 throw e
+            } catch (e: UnsentChangesException) {
+                unsent = e
             } catch (e: SignInCancelled) {
                 error = null
             } catch (e: OidcException) {
@@ -92,6 +105,8 @@ fun LoginScreen(
             }
         }
     }
+
+    fun submit() = signIn(discardUnsent = false, checkFirst = true)
 
     Column(
         modifier = Modifier.padding(24.dp),
@@ -124,5 +139,32 @@ fun LoginScreen(
                 Text("Continue to sign-in")
             }
         }
+    }
+
+    unsent?.let { refusal ->
+        val previous = refusal.previous
+        AlertDialog(
+            onDismissRequest = { unsent = null },
+            title = { Text("Changes not sent") },
+            text = { Text(refusal.message ?: "") },
+            confirmButton = {
+                // Sign in as them: their changes are sent by the next sync
+                if (previous != null && previous.email.isNotBlank()) {
+                    TextButton(onClick = {
+                        unsent = null
+                        email = previous.email
+                        signIn(discardUnsent = false, checkFirst = false)
+                    }, modifier = Modifier.heightIn(min = 48.dp)) { Text("Sign in as ${previous.name.ifBlank { previous.email }}") }
+                } else {
+                    TextButton(onClick = { unsent = null }, modifier = Modifier.heightIn(min = 48.dp)) { Text("Cancel") }
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    unsent = null
+                    signIn(discardUnsent = true, checkFirst = false)
+                }, modifier = Modifier.heightIn(min = 48.dp)) { Text("Discard them", color = MaterialTheme.colorScheme.error) }
+            },
+        )
     }
 }

@@ -1,6 +1,7 @@
 package app.simpletemplate.shared.sync
 
 import app.simpletemplate.shared.ApiClient
+import app.simpletemplate.shared.ApiException
 import app.simpletemplate.shared.data.LocalStore
 import app.simpletemplate.shared.data.appEntities
 import app.simpletemplate.shared.db.Outbox_operation
@@ -43,6 +44,8 @@ class SyncEngine(
     private val deviceName: String? = null,
     private val appVersion: String? = null,
     private val registry: SyncRegistry = appEntities(),
+    /** The signed-in account: each account has its own device id on this phone (null: one for all). */
+    private val userId: Uuid? = null,
     /** Deletes files of removed records and of a wiped workspace from this phone's storage. */
     private val deleteFiles: (List<String>) -> Unit = {},
 ) {
@@ -51,11 +54,28 @@ class SyncEngine(
     private val purge = WorkspacePurge(writer)
     private val json = Json { ignoreUnknownKeys = true }
 
-    /** This installation's id, sent as `X-Device-Id`; stable until the app is reinstalled. */
-    fun deviceId(): Uuid {
-        queries.cursor(DEVICE_SCOPE).executeAsOneOrNull()?.let { return Uuid.parse(it.cursor_token) }
+    private val deviceScope = userId?.let { "$DEVICE_SCOPE:$it" } ?: DEVICE_SCOPE
+
+    /**
+     * This phone's id for the account, sent as `X-Device-Id`; stable until the app is
+     * reinstalled. The platform registers a device id to the first account that syncs with it
+     * and refuses it for any other, so each account on the phone has its own. The one id the
+     * installation had before (one for all accounts) goes to the first account that syncs after
+     * the update; if the platform has it for another account, [renewDeviceId] replaces it.
+     */
+    fun deviceId(): Uuid = store.db.transactionWithResult {
+        queries.cursor(deviceScope).executeAsOneOrNull()?.let { return@transactionWithResult Uuid.parse(it.cursor_token) }
+        val legacy = if (userId != null) queries.cursor(DEVICE_SCOPE).executeAsOneOrNull() else null
+        val id = legacy?.let { Uuid.parse(it.cursor_token) } ?: store.newId()
+        if (legacy != null) queries.deleteCursor(DEVICE_SCOPE)
+        queries.saveCursor(deviceScope, id.toString(), store.nowMillis())
+        id
+    }
+
+    /** A new device id for the account (the platform has the old one for another account). */
+    fun renewDeviceId(): Uuid {
         val id = store.newId()
-        queries.saveCursor(DEVICE_SCOPE, id.toString(), store.nowMillis())
+        queries.saveCursor(deviceScope, id.toString(), store.nowMillis())
         return id
     }
 
@@ -111,7 +131,8 @@ class SyncEngine(
 
     suspend fun sync(orgId: Uuid, maxRounds: Int = 50): SyncReport = withContext(store.dispatcher) {
         pullAgainAfterSchemaChange()
-        val device = deviceId()
+        var device = deviceId()
+        var renewed = false
         var report = SyncReport()
         repeat(maxRounds) {
             val ops = queries.pendingFor(orgId.toString(), BATCH).executeAsList().filter { op ->
@@ -121,10 +142,16 @@ class SyncEngine(
                 problem == null
             }
             val cursor = queries.cursor(orgId.toString()).executeAsOneOrNull()?.cursor_token
-            val response = api.sync(
-                orgId, device,
-                SyncRequest(cursor, ops.map { it.toDto() }, PULL_LIMIT, deviceName, appVersion),
-            )
+            val request = SyncRequest(cursor, ops.map { it.toDto() }, PULL_LIMIT, deviceName, appVersion)
+            val response = try {
+                api.sync(orgId, device, request)
+            } catch (e: ApiException) {
+                // Another account synced from this phone with this id first: once, with a new one
+                if (renewed || !e.deviceOfAnotherAccount) throw e
+                renewed = true
+                device = renewDeviceId()
+                api.sync(orgId, device, request)
+            }
             report = apply(orgId, ops, response, report)
             if (response.wipe.isNotEmpty()) {
                 report = wipe(orgId, device, response.wipe, report)
@@ -223,6 +250,9 @@ class SyncEngine(
         private const val FILE_OBJECT = "file_object"
     }
 }
+
+/** The platform registered this device id to another account (`POST /v1/sync`: 401). */
+val ApiException.deviceOfAnotherAccount: Boolean get() = status == 401 && "another account" in detail
 
 /** The platform's record of a conflict, for the resolution screen. */
 fun parseRecord(json: String?): JsonObject? = json?.let { Json.parseToJsonElement(it).jsonObject }

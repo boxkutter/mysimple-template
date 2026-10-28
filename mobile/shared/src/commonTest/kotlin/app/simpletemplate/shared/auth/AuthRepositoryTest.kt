@@ -183,4 +183,59 @@ class AuthRepositoryTest {
         assertEquals(local, sessions.current)
         assertNotNull(auth.account, "still signed in")
     }
+
+    @Test
+    fun signingInAsAnotherAccountRemovesThePreviousAccountsWorkspacesAfterAWarning() = runTest {
+        val data = app.simpletemplate.shared.data.testStore()
+        val accounts = app.simpletemplate.shared.sync.PhoneAccounts(data)
+        val auth = AuthRepository(api, sessions, oidc, phoneAccounts = { accounts })
+        val local = auth.startLocal("Ada", "Ada's own", "Europe/London")
+        // Bo's organisation workspace on this phone, with a change not sent yet
+        val bosOrg = kotlin.uuid.Uuid.generateV7().toString()
+        accounts.setOwner(DataOwner(kotlin.uuid.Uuid.generateV7().toString(), "Bo", "bo@example.com"))
+        data.db.syncQueries.saveCursor(bosOrg, "c1", 1)
+        data.db.syncQueries.enqueue(kotlin.uuid.Uuid.generateV7().toString(), "item", kotlin.uuid.Uuid.generateV7().toString(), "CREATE", "{}", 0, 1, bosOrg)
+        data.db.syncQueries.enqueue(kotlin.uuid.Uuid.generateV7().toString(), "item", kotlin.uuid.Uuid.generateV7().toString(), "CREATE", "{}", 0, 1, local.organisationId.toString())
+
+        // Before the sign-in page: Bo is named
+        assertEquals("Bo", auth.unsentChangesOfAnother("ada@example.com")?.name)
+        assertNull(auth.unsentChangesOfAnother("BO@example.com"))
+        // After it: nothing signed in until Ada decides
+        val refused = assertFailsWith<UnsentChangesException> { auth.signIn("ada@example.com", browser) }
+        assertEquals("Bo's changes on this phone have not been sent. Sign in as Bo again and sync first, or discard them.", refused.message)
+        assertEquals(local, sessions.current)
+        assertEquals(1L, data.db.syncQueries.pendingCountFor(bosOrg).executeAsOne())
+
+        auth.signIn("ada@example.com", browser, discardUnsent = true)
+
+        assertEquals(platform.orgA, sessions.current?.organisationId)
+        assertEquals(0L, data.db.syncQueries.pendingCountFor(bosOrg).executeAsOne())
+        assertNull(data.db.syncQueries.cursor(bosOrg).executeAsOneOrNull())
+        // The local workspace stays, with its own changes
+        assertEquals(1L, data.db.syncQueries.pendingCountFor(local.organisationId.toString()).executeAsOne())
+        assertEquals(platform.userId.toString(), accounts.owner()?.userId)
+        assertEquals("ada@example.com", accounts.owner()?.email)
+    }
+
+    @Test
+    fun withNothingUnsentAnotherAccountTakesThePhoneWithoutAsking() = runTest {
+        val data = app.simpletemplate.shared.data.testStore()
+        val accounts = app.simpletemplate.shared.sync.PhoneAccounts(data)
+        val auth = AuthRepository(api, sessions, oidc, phoneAccounts = { accounts })
+        auth.signIn("ada@example.com", browser)
+        // Ada's workspace on the phone, everything sent
+        data.db.syncQueries.saveCursor(platform.orgA.toString(), "c1", 1)
+        auth.signOut()
+        // Ada again: nothing leaves
+        auth.signIn("ada@example.com", browser)
+        assertEquals("c1", data.db.syncQueries.cursor(platform.orgA.toString()).executeAsOneOrNull()?.cursor_token)
+
+        auth.signOut()
+        platform.userId = kotlin.uuid.Uuid.generateV7()
+        auth.signIn("ada@example.com", browser)
+
+        // Another account (even in the same organisation): Ada's data left the phone
+        assertNull(data.db.syncQueries.cursor(platform.orgA.toString()).executeAsOneOrNull())
+        assertEquals(platform.userId.toString(), accounts.owner()?.userId)
+    }
 }

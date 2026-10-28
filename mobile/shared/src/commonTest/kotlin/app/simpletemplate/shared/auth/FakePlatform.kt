@@ -37,7 +37,7 @@ internal class FakePlatform {
     val requests = mutableListOf<String>()
     var lastNonce = ""
     var challenge = ""
-    val userId = Uuid.generateV7()
+    var userId = Uuid.generateV7()
     val orgA = Uuid.generateV7()
     val orgB = Uuid.generateV7()
     /** The account's organisations, by id and name. */
