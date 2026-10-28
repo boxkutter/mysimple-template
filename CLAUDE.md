@@ -2,6 +2,8 @@
 
 A mobile-first app of the platform: Kotlin Multiplatform (Android first, iOS later), local-first, connecting to the My Simple ISO platform (the same server as My Simple Auditor). It started from the **mysimple-template** repository; `.template-version` (in an app) names the template commit.
 
+**The concept** (the owner's statement, in full in the platform repository at `boxkutter/iso` `docs/platform-concept.md`): the platform and its apps let an organisation establish, run, monitor, review and improve its own management system with plan, do, check, act, auditable by third parties. Built on the ISO management system model and integrated across topics, but never "ISO compliant" and never organised or labelled by clause numbers. Standards are named only where the organisation declares the standards it intends to meet (set-up) and in auditing. The declared standards drive the linkages, references, health check and performance measures.
+
 Read before changing code:
 
 - [docs/platform.md](docs/platform.md): how the app talks to the server (sign-in, workspaces, sync, attachments, AI drafting) and what needs a server change.
