@@ -2,6 +2,12 @@
 
 What changed in the template, newest first, and what an app made from an earlier version has to do to take each change. See [keeping-current.md](keeping-current.md).
 
+## 0.2.3 — platform notes: contacts edited in the web, form hints (documentation only)
+
+- **Contacts are a register in the web** (`organisation/contacts`, platform ADR 0045): the web is now another writer of `contact`. An app that syncs contacts takes the server's versions as from another device, as for any record.
+- **Form hints** in the platform's register schemas say what every field holds (its target register, or the shape of a JSON column), so no form asks a person for an id or JSON. They are for the web; an app building its own forms may read them. Contract §7.1.
+- Nothing to do in an app.
+
 ## 0.2.2 — several accounts on one phone
 
 Ported from My Simple Auditor (its "C11"). The platform registers a phone's `X-Device-Id` to the first account that syncs with it and refuses it for any other account (`401` "This device belongs to another account"), so two people sharing a phone, or one person with two accounts, could not both sync. Now:
